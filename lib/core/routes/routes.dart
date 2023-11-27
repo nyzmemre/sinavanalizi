@@ -7,6 +7,8 @@ class Routes {
     switch (settings.name) {
       /*case RouteText.routeMyLoginView:
         return MaterialPageRoute(builder: (_)=>MyLoginView());*/
+    /*case RouteText.routeMyLoginView:
+        return MaterialPageRoute(builder: (_)=>MyLoginView());*/
 
     }
   }
