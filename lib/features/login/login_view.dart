@@ -3,6 +3,7 @@ import 'package:kartal/kartal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:sinavanalizi/features/homepage/homepage_view.dart';
+import 'package:sinavanalizi/product/utilty/constants/text_constant.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
@@ -20,20 +21,19 @@ class LoginView extends StatelessWidget {
           key: _key,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Giriş Yap'),
+              const Text(TextConstant.signIn),
               context.sized.emptySizedHeightBoxLow,
               TextFormField(
                 validator: (value){
                   if(value!=null) {
                     if(value.length<3)
-                      {return 'Mail adresi boş olamaz!';}
+                      {return TextConstant.mailNotEmptyError;}
                   }
                 },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Mail adresi',
+                  labelText: TextConstant.mailAdress,
                 ),
                 controller: emailCtrl,
               ),
@@ -41,7 +41,7 @@ class LoginView extends StatelessWidget {
               TextFormField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Şifre',
+                  labelText: TextConstant.password,
                 ),
                 validator: (value){
                   if(value!=null) {
@@ -57,11 +57,12 @@ class LoginView extends StatelessWidget {
                   {
                    //... do something
                   }
-              }, child: Text('Giriş Yap')),
+              }, child: const Text(TextConstant.signIn)),
               context.sized.emptySizedHeightBoxLow,
-              Text('Veya'),
+              const Text(TextConstant.or),
               context.sized.emptySizedHeightBoxLow,
-              TextButton(onPressed: () {}, child: Text('Kayıt Ol')),
+              TextButton(onPressed: () {}, child: const Text(TextConstant.signUp),
+              ),
             ],
           ),
         ),
