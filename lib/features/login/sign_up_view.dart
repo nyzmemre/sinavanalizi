@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:sinavanalizi/product/widgets/custom_dropdownmenu.dart';
 import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 
 import '../../product/utilty/constants/text_constant.dart';
@@ -75,27 +77,23 @@ class _SignUpViewState extends State<SignUpView> {
               context.sized.emptySizedHeightBoxNormal,
               Row(
                 children: [
-                  /*DropdownButton<String>(
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance.collection('schools').snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if(snapshot.hasData) {
+                        List<String> list=snapshot.data!.docs.map((e) => e.id).toList();
+                        return CustomDropdownMenu(list: list);
+                      } else {
+                        return Center(child: CircularProgressIndicator(),);
+                      }
+                    }
+                  ),
 
-                    value: selectedCity,
-                    hint: Text('Select City'),
-                    onChanged: (String? newValue) {
-
-                      setState(() {
-                        selectedCity = newValue!;
-                        selectedDistrict = ''; // Reset district when city changes
-                      });
-                    },
-                    items: ['City1', 'City2', 'City3'].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),*/
-                ],
+                  context.sized.emptySizedWidthBoxNormal,
+                 CustomDropdownMenu(list: ['Aydın','Adana']),
+              ],
               ),
-
+context.sized.emptySizedHeightBoxNormal,
               ElevatedButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
