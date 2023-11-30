@@ -109,9 +109,16 @@ class _SignUpViewState extends State<SignUpView> {
                               return Center(child: CircularProgressIndicator());
                             } else if (snapshot.hasError) {
                               return Center(child: Text('Error: ${snapshot.error}'));
-                            } else if (snapshot.data == null || snapshot.data!.docs.isEmpty || provider.city=='İl Seçiniz') {
+                            } else if (snapshot.data == null || snapshot.data!.docs.isEmpty  ) {
+                              print(provider.city);
                               List<String> noList=['İlçe Seçiniz'];
                               return CustomDropdownMenu(list: noList);
+                            }else if (provider.city=='İl Seçiniz'){
+                              List<String> noList=['İlçe Seçiniz'];
+                              print(provider.city);
+                              return CustomDropdownMenu(
+
+                                  list: noList);
                             }
                             else {
                               List<String> districtList =
@@ -121,7 +128,10 @@ class _SignUpViewState extends State<SignUpView> {
                                 districtList.insert(0, 'İlçe Seçiniz');
                               }
 
-                              return CustomDropdownMenu(list: districtList);
+                              return (provider.city=='İl Seçiniz') ?
+                              const CustomDropdownMenu(list: ['İlçe Seçiniz']
+                              ) :
+                              CustomDropdownMenu(list: districtList);
                             }
                           },
                         );

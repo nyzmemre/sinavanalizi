@@ -3,10 +3,15 @@ import 'package:flutter/cupertino.dart';
 
 class LoginViewModel extends ChangeNotifier {
   String? city;
+  String? district;
 
   void cityChange(String value){
     city=value;
-    print(city);
+    notifyListeners();
+  }
+
+  void districtChange(String value){
+    district=value;
     notifyListeners();
   }
 }
