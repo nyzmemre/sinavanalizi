@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sinavanalizi/features/homepage/homepage_view.dart';
 import 'package:sinavanalizi/features/login/login_view.dart';
+import 'package:sinavanalizi/features/login/login_view_model.dart';
 import 'package:sinavanalizi/features/login/sign_up_view.dart';
 
 import 'package:sinavanalizi/firebase_options.dart';
@@ -17,13 +19,12 @@ void main() async {
   );
 
   runApp(
-     const SinavAnalizi(),
-  );
-  /* MultiProvider(
+
+   MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => AttendationViewModel()),
+          ChangeNotifierProvider<LoginViewModel>(create: (_) => LoginViewModel()),
         ],
-        child: const SinavAnalizi()),);*/
+        child: const SinavAnalizi()));
 }
 
 class SinavAnalizi extends StatelessWidget {

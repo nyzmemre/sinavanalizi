@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:provider/provider.dart';
+import 'package:sinavanalizi/features/login/login_view_model.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu.dart';
 import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 
@@ -15,19 +17,12 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   final _key = GlobalKey<FormState>();
-
   final nameCtrl = TextEditingController();
-
   final surnameCtrl = TextEditingController();
-
   final emailCtrl = TextEditingController();
-
   final passwordCtrl = TextEditingController();
-
   final passwordAgainCtrl = TextEditingController();
-
   String selectedCity = '';
-
   String selectedDistrict = '';
 
   @override
@@ -76,24 +71,71 @@ class _SignUpViewState extends State<SignUpView> {
               ),
               context.sized.emptySizedHeightBoxNormal,
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection('schools').snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if(snapshot.hasData) {
-                        List<String> list=snapshot.data!.docs.map((e) => e.id).toList();
-                        return CustomDropdownMenu(list: list);
-                      } else {
-                        return Center(child: CircularProgressIndicator(),);
-                      }
-                    }
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance.collection('schools').snapshots(),
+                      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+                          return Center(child: Text('No data available'));
+                        } else {
+                          List<String> list =
+                          snapshot.data!.docs.map((e) => e.id).toList();
+                          list.insert(0, 'İl Seçiniz'); // "İl Seçiniz" ifadesini ekleyin
+                          return CustomDropdownMenu(list: list);
+                        }
+                      },
+                    ),
                   ),
-
                   context.sized.emptySizedWidthBoxNormal,
-                 CustomDropdownMenu(list: ['Aydın','Adana']),
-              ],
-              ),
-context.sized.emptySizedHeightBoxNormal,
+                  Expanded(
+                    child: Consumer<LoginViewModel>(
+                      builder: (context, provider, _) {
+                        return StreamBuilder<QuerySnapshot>(
+                          stream: provider.city != null && provider.city != 'İl Seçiniz'
+                              ? FirebaseFirestore.instance
+                              .collection('schools')
+                              .doc(provider.city)
+                              .collection('districts')
+                              .snapshots()
+                              : null,
+                          builder: (context, snapshot) {
+                            if (snapshot == null || snapshot.connectionState == ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return Center(child: Text('Error: ${snapshot.error}'));
+                            } else if (snapshot.data == null || snapshot.data!.docs.isEmpty || provider.city=='İl Seçiniz') {
+                              List<String> noList=['İlçe Seçiniz'];
+                              return CustomDropdownMenu(list: noList);
+                            }
+                            else {
+                              List<String> districtList =
+                              snapshot.data!.docs.map((e) => e.id).toList();
+
+                              if (provider.city == 'İl Seçiniz') {
+                                districtList.insert(0, 'İlçe Seçiniz');
+                              }
+
+                              return CustomDropdownMenu(list: districtList);
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              )
+              ,
+
+
+
+
+              context.sized.emptySizedHeightBoxNormal,
               ElevatedButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {

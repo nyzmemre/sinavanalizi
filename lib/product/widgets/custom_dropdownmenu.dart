@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sinavanalizi/features/login/login_view_model.dart';
 
 class CustomDropdownMenu extends StatefulWidget {
   const CustomDropdownMenu({super.key, required this.list});
@@ -13,18 +15,24 @@ class _DropdownMenuExampleState extends State<CustomDropdownMenu> {
   Widget build(BuildContext context) {
     var dropdownValue = widget.list.first;
 
-    return DropdownMenu<String>(
-      initialSelection: widget.list.first,
-      onSelected: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          dropdownValue = value!;
-        });
-      },
-      dropdownMenuEntries: widget.list.map<DropdownMenuEntry<String>>((String value)
-      {
-        return DropdownMenuEntry<String>(value: value, label: value);
-      }).toList(),
+    return Consumer<LoginViewModel>(
+      builder: (context, provider, _) {
+        return DropdownMenu<String>(
+          initialSelection: widget.list.first,
+          onSelected: (String? value) {
+            // This is called when the user selects an item.
+            setState(() {
+              dropdownValue = value!;
+              provider.cityChange(value);
+            });
+          },
+          dropdownMenuEntries: widget.list.map<DropdownMenuEntry<String>>((String value)
+          {
+            return DropdownMenuEntry<String>(value: value, label: value);
+          }).toList(),
+        );
+      }
+
     );
   }
 }
