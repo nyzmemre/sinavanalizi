@@ -87,7 +87,7 @@ class _SignUpViewState extends State<SignUpView> {
                           List<String> list =
                           snapshot.data!.docs.map((e) => e.id).toList();
                           list.insert(0, 'İl Seçiniz'); // "İl Seçiniz" ifadesini ekleyin
-                          return CustomDropdownMenu(list: list);
+                          return CustomDropdownMenu(list: list,);
                         }
                       },
                     ),
@@ -116,9 +116,7 @@ class _SignUpViewState extends State<SignUpView> {
                             }else if (provider.city=='İl Seçiniz'){
                               List<String> noList=['İlçe Seçiniz'];
                               print(provider.city);
-                              return CustomDropdownMenu(
-
-                                  list: noList);
+                              return CustomDropdownMenu(list: noList);
                             }
                             else {
                               List<String> districtList =
@@ -139,8 +137,7 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                   ),
                 ],
-              )
-              ,
+              ),
 
 
 
