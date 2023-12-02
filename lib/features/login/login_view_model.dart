@@ -4,16 +4,28 @@ import 'package:flutter/cupertino.dart';
 class LoginViewModel extends ChangeNotifier {
   ///Başlangıçta bu değerleri veriyorum
   ///Çünkü seçim yapılınca sonraki dropdown açılmalı, başta açılmamalı.
-  String city='İl Seçiniz';
-  String district='İlçe Seçiniz';
+  String _city='İl Seçiniz';
+  String _district='İlçe Seçiniz';
+  String _school='Okul Seçiniz';
+  bool _isVisible=false;
+
+  void visibleChange(){
+    _isVisible=!_isVisible;
+    notifyListeners();
+  }
 
   void cityChange(String value){
-    city=value;
+    _city=value;
     notifyListeners();
   }
 
   void districtChange(String value){
-    district=value;
+    _district=value;
     notifyListeners();
   }
+
+  String get city=>_city;
+  String get district=>_district;
+  String get school=>_school;
+  bool get isVisible=>_isVisible;
 }

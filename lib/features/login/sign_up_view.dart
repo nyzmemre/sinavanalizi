@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 import 'package:sinavanalizi/features/login/login_view_model.dart';
+import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
@@ -57,22 +58,39 @@ class _SignUpViewState extends State<SignUpView> {
                 labelText: TextConstant.mailAdress,
               ),
               context.sized.emptySizedHeightBoxNormal,
-              CustomTextFormField(
-                controller: passwordCtrl,
-                isVisible: true,
-                labelText: TextConstant.password,
-              ),
-              context.sized.emptySizedHeightBoxNormal,
-              CustomTextFormField(
-                controller: passwordAgainCtrl,
-                isVisible: true,
-                validator: (value){
-                  if(passwordCtrl.text != passwordAgainCtrl.text){
-                    return TextConstant.passwordNotSame;
-                  }
-                },
-                labelText: TextConstant.passwordAgain,
-              ),
+              Consumer<LoginViewModel>(builder: (context, provider,_){
+    return Column(
+      children: [
+        CustomTextFormField(
+                    controller: passwordCtrl,
+                    isVisible: (provider.isVisible) ? false : true,
+                    labelText: TextConstant.password,
+                  ),context.sized.emptySizedHeightBoxNormal,
+        CustomTextFormField(
+          controller: passwordAgainCtrl,
+          isVisible: (provider.isVisible) ? false : true,
+          validator: (value){
+            if(passwordCtrl.text != passwordAgainCtrl.text){
+              return TextConstant.passwordNotSame;
+            }
+          },
+          labelText: TextConstant.passwordAgain,
+        ),
+      ],
+    );}),
+
+              Consumer<LoginViewModel>(builder: (context, provider,_){
+                return Row(
+                  children: [
+
+                    Checkbox(
+                        value: provider.isVisible, onChanged: (val){
+                      provider.visibleChange();
+                    }),
+                    (provider.isVisible) ? Text('Şifreyi gizle') : Text('Şifreyi göster'),
+                  ],
+                );
+              }),
               context.sized.emptySizedHeightBoxNormal,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
