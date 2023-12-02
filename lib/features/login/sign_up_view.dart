@@ -4,6 +4,10 @@ import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 import 'package:sinavanalizi/features/login/login_view_model.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu.dart';
+import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
+import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
+import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
+import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
 import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 
 import '../../product/utilty/constants/text_constant.dart';
@@ -87,7 +91,7 @@ class _SignUpViewState extends State<SignUpView> {
                           List<String> list =
                           snapshot.data!.docs.map((e) => e.id).toList();
                           list.insert(0, 'İl Seçiniz'); // "İl Seçiniz" ifadesini ekleyin
-                          return CustomDropdownMenu(list: list,);
+                          return CustomDropdownMenuCity(list: list,);
                         }
                       },
                     ),
@@ -110,26 +114,21 @@ class _SignUpViewState extends State<SignUpView> {
                             } else if (snapshot.hasError) {
                               return Center(child: Text('Error: ${snapshot.error}'));
                             } else if (snapshot.data == null || snapshot.data!.docs.isEmpty  ) {
-                              print(provider.city);
+                              print(provider.district);
                               List<String> noList=['İlçe Seçiniz'];
-                              return CustomDropdownMenu(list: noList);
+                              return CustomDropdownMenuDistrict(list: noList);
                             }else if (provider.city=='İl Seçiniz'){
                               List<String> noList=['İlçe Seçiniz'];
-                              print(provider.city);
-                              return CustomDropdownMenu(list: noList);
+                              print(provider.district);
+                              return CustomDropdownMenuDistrict(list: noList);
                             }
                             else {
                               List<String> districtList =
                               snapshot.data!.docs.map((e) => e.id).toList();
 
-                              if (provider.city == 'İl Seçiniz') {
-                                districtList.insert(0, 'İlçe Seçiniz');
-                              }
+print(provider.district);
 
-                              return (provider.city=='İl Seçiniz') ?
-                              const CustomDropdownMenu(list: ['İlçe Seçiniz']
-                              ) :
-                              CustomDropdownMenu(list: districtList);
+                              return  CustomDropdownMenuDistrict(list: districtList);
                             }
                           },
                         );
