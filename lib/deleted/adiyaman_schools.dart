@@ -1,5 +1,5 @@
-class AdiyamanSchoolList{
- List<String> rawData = ['ADIYAMAN - BESNİ - Aşağısöğütlü İlkokulu',
+class AdiyamanSchools{
+ List<String> list = ['ADIYAMAN - BESNİ - Aşağısöğütlü İlkokulu',
 'ADIYAMAN - BESNİ - Merinos Ali Erdemoğlu Fen Lisesi',
 'ADIYAMAN - BESNİ - Besni İbn - i Sina Mesleki ve Teknik Anadolu Lisesi',
 'ADIYAMAN - BESNİ - Besni Mustafa Erdemoğlu Anadolu Lisesi',

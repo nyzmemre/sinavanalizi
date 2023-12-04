@@ -1,5 +1,5 @@
 class AdanaSchoolList {
-  List<String> rawData = [
+   List<String> list = [
     'ADANA - ALADAĞ - Akören İlkokulu'
         'ADANA - ALADAĞ - Atatürk İlkokulu',
     'ADANA - ALADAĞ - Akören Ortaokulu',
