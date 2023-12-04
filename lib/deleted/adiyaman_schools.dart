@@ -1,5 +1,5 @@
 class AdiyamanSchools{
- List<String> list = ['ADIYAMAN - BESNİ - Aşağısöğütlü İlkokulu',
+ List<String> _list = ['ADIYAMAN - BESNİ - Aşağısöğütlü İlkokulu',
 'ADIYAMAN - BESNİ - Merinos Ali Erdemoğlu Fen Lisesi',
 'ADIYAMAN - BESNİ - Besni İbn - i Sina Mesleki ve Teknik Anadolu Lisesi',
 'ADIYAMAN - BESNİ - Besni Mustafa Erdemoğlu Anadolu Lisesi',
@@ -836,4 +836,7 @@ class AdiyamanSchools{
 'ADIYAMAN - TUT - AKÇATEPE ORTAOKULU',
 'ADIYAMAN - TUT - Boyundere Hatice Yıldırım Ortaokulu',
 'ADIYAMAN - TUT - Tut Kaşlıca İmam Hatip Ortaokulu'];
+
+ List<String> get list=>_list;
+
 }

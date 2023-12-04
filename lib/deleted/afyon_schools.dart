@@ -1,5 +1,5 @@
 class AfyonSchools{
-  List<String> list=[
+  List<String> _list=[
     'AFYONKARAHİSAR - BAŞMAKÇI - Başmakçı Çok Programlı Anadolu Lisesi',
     'AFYONKARAHİSAR - BAŞMAKÇI - Başmakçı Halk Eğitimi Merkezi',
     'AFYONKARAHİSAR - BAŞMAKÇI - Cumhuriyet İlkokulu',
@@ -838,4 +838,6 @@ class AfyonSchools{
     'AFYONKARAHİSAR - SULTANDAĞI - SULTANDAĞI İMAM HATİP ORTAOKULU',
     'AFYONKARAHİSAR - SULTANDAĞI - Çamözü İlkokulu',
   ];
+
+  List<String> get list=>_list;
 }

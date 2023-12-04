@@ -1,5 +1,5 @@
 class AntalyaSchools{
-  final List<String> list=[
+  final List<String> _list=[
   'ANTALYA - AKSEKİ - Akseki Anadolu Lisesi',
   'ANTALYA - AKSEKİ - Cevizli İlkokulu',
   'ANTALYA - AKSEKİ - Cevizli Ortaokulu',
@@ -1409,4 +1409,6 @@ class AntalyaSchools{
   'ANTALYA - SERİK - Hacı Ayfer - Mehmet Ali Yılmaz Anaokulu',
   'ANTALYA - SERİK - Yukarı Kocayatak Anaokulu',
   ];
+
+  List<String> get list=>_list;
 }

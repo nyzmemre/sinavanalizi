@@ -4,12 +4,13 @@ import '../utilty/constants/color_constant.dart';
 import '../utilty/constants/text_constant.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({super.key, required this.labelText, this.validator, this.keyboardType, this.controller, this.isVisible});
+  CustomTextFormField({super.key, required this.labelText, this.validator, this.keyboardType, this.controller, this.isVisible, this.eneblad});
   // ignore: strict_raw_type
   final String labelText;
   final FormFieldValidator<String>? validator;
   final bool? isVisible;
   final TextInputType? keyboardType;
+  final bool? eneblad;
 
   TextEditingController? controller = TextEditingController();
 
@@ -17,8 +18,10 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+
       obscureText: isVisible ?? false,
       controller: controller,
+      enabled: eneblad ?? false,
       keyboardType: keyboardType,
       validator: validator ?? (value){
         if(value==null || value=='') {

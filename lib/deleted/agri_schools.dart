@@ -1,5 +1,5 @@
 class AgriSchools {
-  final List<String> list=['AĞRI - DİYADİN - Atayolu İlkokulu',
+  final List<String> _list=['AĞRI - DİYADİN - Atayolu İlkokulu',
     'AĞRI - DİYADİN - Cemal Kaya Anadolu Lisesi',
     'AĞRI - DİYADİN - Cumhuriyet İlkokulu',
     'AĞRI - DİYADİN - Heybeliyurt İlkokulu',
@@ -1019,6 +1019,10 @@ class AgriSchools {
     'AĞRI - TUTAK - Gültepe İlkokulu',
     'AĞRI - TUTAK - Karacan Kuşkaya İlkokulu',
     'AĞRI - TUTAK - Dibelek İlkokulu',
-    'AĞRI - TUTAK - Yukarı Özdek İlkokulu',];
+    'AĞRI - TUTAK - Yukarı Özdek İlkokulu',
+  ];
+
+  List<String> get list=>_list;
+
 }
 

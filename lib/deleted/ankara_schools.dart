@@ -1,5 +1,5 @@
 class AnkaraSchools{
-  final List<String> list=[
+  final List<String> _list=[
   'ANKARA - AKYURT - Akyurt Yıldırım Beyazıt İlkokulu',
   'ANKARA - AKYURT - Barmek Ortaokulu',
   'ANKARA - AKYURT - Akyurt Halk Eğitimi Merkezi',
@@ -2145,4 +2145,6 @@ class AnkaraSchools{
   'ANKARA - YENİMAHALLE - Şehit Mustafa Erdal Anaokulu',
   'ANKARA - YENİMAHALLE - Şehit Mahmut Uslu Anaokulu',
   ];
+
+  List<String> get list=>_list;
 }

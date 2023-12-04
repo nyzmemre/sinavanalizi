@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -8,7 +10,12 @@ class LoginViewModel extends ChangeNotifier {
   String _district='İlçe Seçiniz';
   String _school='Okul Seçiniz';
   bool _isVisible=false;
+  bool _isSchoolFound=false;
 
+  void schoolFoundChange(){
+    _isSchoolFound=!_isSchoolFound;
+    notifyListeners();
+  }
   void visibleChange(){
     _isVisible=!_isVisible;
     notifyListeners();
@@ -24,8 +31,14 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void schoolChange(String value){
+    _school=value;
+    notifyListeners();
+  }
+
   String get city=>_city;
   String get district=>_district;
   String get school=>_school;
   bool get isVisible=>_isVisible;
+  bool get isSchoolFound=>_isSchoolFound;
 }

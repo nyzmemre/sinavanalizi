@@ -18,11 +18,14 @@ class _DropdownMenuExampleState extends State<CustomDropdownMenuSchool> {
         builder: (context, provider, _) {
 
           return DropdownMenu<String>(
-            initialSelection: provider.district != 'İlçe Seçiniz' ? provider.district : widget.list.first,
-            enabled: (provider.city!='İl Seçiniz') ? true : false,
+            initialSelection: provider.school != 'Okul Seçiniz' ? provider.school : widget.list.first,
+            enabled: (provider.district!='İlçe Seçiniz') ? true : false,
             onSelected: (String? value) {
               // This is called when the user selects an item.
-              provider.districtChange(value!);
+              provider.schoolChange(value!);
+              print('---------');
+              print(provider.district);
+              print(provider.school);
             },
             dropdownMenuEntries: widget.list.map<DropdownMenuEntry<String>>((String value)
             {

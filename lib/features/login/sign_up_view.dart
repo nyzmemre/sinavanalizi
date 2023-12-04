@@ -6,9 +6,7 @@ import 'package:sinavanalizi/features/login/login_view_model.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
-import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
-import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
-import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
+import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_school.dart';
 import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 
 import '../../product/utilty/constants/text_constant.dart';
@@ -27,6 +25,7 @@ class _SignUpViewState extends State<SignUpView> {
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   final passwordAgainCtrl = TextEditingController();
+  final schoolName = TextEditingController();
   String selectedCity = '';
   String selectedDistrict = '';
 
@@ -97,7 +96,7 @@ class _SignUpViewState extends State<SignUpView> {
                 children: [
                   Expanded(
                     child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('schools').snapshots(),
+                      stream: FirebaseFirestore.instance.collection('cities').snapshots(),
                       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
@@ -121,7 +120,7 @@ class _SignUpViewState extends State<SignUpView> {
                         return StreamBuilder<QuerySnapshot>(
                           stream: provider.city != null && provider.city != 'İl Seçiniz'
                               ? FirebaseFirestore.instance
-                              .collection('schools')
+                              .collection('cities')
                               .doc(provider.city)
                               .collection('districts')
                               .snapshots()
@@ -155,11 +154,68 @@ print(provider.district);
                   ),
                 ],
               ),
-
-
-
-
               context.sized.emptySizedHeightBoxNormal,
+              Align(
+  alignment: Alignment.centerLeft,
+  child:   Consumer<LoginViewModel>(builder: (context, provider,_){
+    return StreamBuilder<QuerySnapshot>(
+      stream: provider.city != null && provider.city != 'İlçe Seçiniz'
+          ? FirebaseFirestore.instance
+          .collection('cities')
+          .doc(provider.city)
+          .collection('districts')
+      .doc(provider.district).collection('schools')
+          .snapshots()
+          : null,
+      builder: (context, snapshot) {
+        if (snapshot == null || snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (snapshot.data == null || snapshot.data!.docs.isEmpty  ) {
+          print(provider.district);
+          List<String> noList=['Okul Seçiniz'];
+          return CustomDropdownMenuSchool(list: noList);
+        }else if (provider.district=='İlçe Seçiniz'){
+          List<String> noList=['Okul Seçiniz'];
+          print(provider.district);
+          return CustomDropdownMenuSchool(list: noList);
+        }
+        else {
+          List<String> schoolList =
+          snapshot.data!.docs.map((e) => e.id).toList();
+
+          print(provider.district);
+
+          return  CustomDropdownMenuSchool(list: schoolList);
+        }
+      },
+    );
+  }),
+),
+
+   context.sized.emptySizedHeightBoxNormal,
+              Consumer<LoginViewModel>(builder: (context, provider,_){
+                return Column(
+                  children: [
+                    CustomTextFormField(
+                      controller: schoolName,
+                      eneblad: provider.isSchoolFound,
+                      labelText: TextConstant.schoolName,
+                    ),
+                    Row(
+                      children: [
+
+                        Checkbox(
+                            value: provider.isSchoolFound, onChanged: (val){
+                          provider.schoolFoundChange();
+                        }),
+                        (provider.isSchoolFound) ? Text('Okulum Var') : Text('Okulum Yok'),
+                      ],
+                    )
+                  ],
+                );}),
+   context.sized.emptySizedHeightBoxNormal,
               ElevatedButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {

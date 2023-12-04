@@ -1,5 +1,5 @@
 class AmasyaSchools{
-  final List<String> list=[
+  final List<String> _list=[
   'AMASYA - GÖYNÜCEK - Atatürk İlkokulu',
   'AMASYA - GÖYNÜCEK - Gediksaray Şehit Satılmış Salatacı İlkokulu',
   'AMASYA - GÖYNÜCEK - Göynücek 70. Yıl Mesleki ve Teknik Anadolu Lisesi',
@@ -306,4 +306,6 @@ class AmasyaSchools{
   'AMASYA - TASOVA - Kavaloluğu İlkokulu',
   'AMASYA - TASOVA - Mercimek İlkokulu',
   ];
+
+  List<String> get list=>_list;
 }

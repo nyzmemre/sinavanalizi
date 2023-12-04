@@ -1,5 +1,5 @@
 class AdanaSchoolList {
-   List<String> list = [
+   List<String> _list = [
     'ADANA - ALADAĞ - Akören İlkokulu'
         'ADANA - ALADAĞ - Atatürk İlkokulu',
     'ADANA - ALADAĞ - Akören Ortaokulu',
@@ -1272,4 +1272,6 @@ class AdanaSchoolList {
     'ADANA - YÜREĞİR - Mimar Sinan Özel Eğitim Anaokulu',
     'ADANA - YÜREĞİR - Rahime Hatun Anaokulu',
   ];
+
+   List<String> get list=>_list;
 }

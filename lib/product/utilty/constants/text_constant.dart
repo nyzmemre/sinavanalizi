@@ -23,6 +23,7 @@ class TextConstant{
   static const String or='----- Veya -----';
   static const String name='İsim';
   static const String surname='Soyisim';
+  static const String schoolName='Okul Adı';
 
   ///errorMessage
   static const String notEmpty='alanı boş olamaz.';
