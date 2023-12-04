@@ -1,5 +1,5 @@
 class AfyonSchools{
-  List<String> _list=[
+  final List<String> _list=[
     'AFYONKARAHİSAR - BAŞMAKÇI - Başmakçı Çok Programlı Anadolu Lisesi',
     'AFYONKARAHİSAR - BAŞMAKÇI - Başmakçı Halk Eğitimi Merkezi',
     'AFYONKARAHİSAR - BAŞMAKÇI - Cumhuriyet İlkokulu',

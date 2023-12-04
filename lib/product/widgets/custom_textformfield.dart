@@ -21,7 +21,7 @@ class CustomTextFormField extends StatelessWidget {
 
       obscureText: isVisible ?? false,
       controller: controller,
-      enabled: eneblad ?? false,
+      enabled: eneblad ?? true,
       keyboardType: keyboardType,
       validator: validator ?? (value){
         if(value==null || value=='') {
