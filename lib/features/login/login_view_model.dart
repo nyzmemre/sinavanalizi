@@ -1,7 +1,9 @@
 import 'dart:js_util';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:sinavanalizi/services/firebase_auth_services.dart';
 
@@ -101,6 +103,9 @@ class LoginViewModel extends ChangeNotifier {
   }
 
 
+
+
+
   String get city=>_city;
   String get district=>_district;
   String get school=>_school;
@@ -109,3 +114,4 @@ class LoginViewModel extends ChangeNotifier {
   bool get isSchoolFound=>_isSchoolFound;
   bool get isClickButton=>_isClickButton;
 }
+

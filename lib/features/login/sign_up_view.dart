@@ -217,14 +217,14 @@ class _SignUpViewState extends State<SignUpView> {
                       CustomTextFormField(
                           controller: schoolName,
                           enabled: provider.isSchoolFound,
-                          validator: (value){
-                            if(provider.isSchoolFound && schoolName.text.isEmpty){
-                              return 'Okul bilgisi girilmedi';
-                            } else {
-                              provider.schoolChange(value!);
-                              print(provider.school);
-                            }
-                          },
+                          validator: (provider.isSchoolFound) ? (value) {
+                           if(schoolName.text.isEmpty){
+                             return 'Lütfen forma okul ismini giriniz';
+                           }else {
+                             provider.schoolChange(schoolName.text);
+                           }
+                          } : (value){},
+
                           labelText: TextConstant.schoolName
                       ),
                       Row(
@@ -283,6 +283,7 @@ class _SignUpViewState extends State<SignUpView> {
                                     if (provider.city != 'İl Seçiniz' &&
                                         provider.district != 'İlçe Seçiniz' &&
                                         provider.school != 'Okul Seçiniz' && provider.school.isNotEmpty && provider.branch!='Branş Seçiniz' && provider.branch.isNotEmpty) {
+
                                       await _loginViewModel
                                           .registerUserAndAddToFirestore(
                                               email: emailCtrl.text,
@@ -293,11 +294,9 @@ class _SignUpViewState extends State<SignUpView> {
                                               city: provider.city,
                                               district: provider.district,
                                               schoolID: 'schoolID',
-                                              school: (provider.isSchoolFound)
-                                                  ? schoolName.text
-                                                  : provider.school);
+                                              school: (!provider.isSchoolFound) ? provider.school : schoolName.text);
                                     } else {
-                                      print(provider.school);
+                                      print('school: ${provider.school}');
                                       MotionToast.error(
                                         title: Text("Dikkat"),
                                         description: Text(
@@ -307,6 +306,7 @@ class _SignUpViewState extends State<SignUpView> {
                                     }
 
                                 } else {
+                                  print(provider.school);
                                   print('bişeylee olupduru');
                                 }
 

@@ -37,6 +37,11 @@ class CustomTextFormField extends StatelessWidget {
             return '$labelText ${TextConstant.numberLengthERROR}';
           }
         }
+        else if(labelText== TextConstant.password){
+          if(value.length<7){
+            return 'Şifre en az 8 haneli olmalıdır';
+          }
+        }
         else if(labelText==TextConstant.mailAdress) {
           if (!value.contains('@') ||
               !value.contains('.com')) {
