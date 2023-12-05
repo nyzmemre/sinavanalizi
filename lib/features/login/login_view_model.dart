@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:sinavanalizi/features/homepage/homepage_view.dart';
 import 'package:sinavanalizi/services/firebase_auth_services.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -57,6 +58,7 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future<void> registerUserAndAddToFirestore({
+    required BuildContext context,
     required String email,
     required String password,
     required String name,
@@ -92,6 +94,7 @@ class LoginViewModel extends ChangeNotifier {
         title: Text('Tebrikler'),
         description: Text('Kayıt başarıyla olşturuldu.'),
       );
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
       print('Kullanıcı başarıyla oluşturuldu ve Firestore\'a eklendi.');
     } catch (e) {
       MotionToast.error(

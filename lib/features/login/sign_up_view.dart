@@ -82,8 +82,8 @@ class _SignUpViewState extends State<SignUpView> {
                             provider.visibleChange();
                           }),
                       (provider.isVisible)
-                          ? Text('Şifreyi gizle')
-                          : Text('Şifreyi göster'),
+                          ? Text(TextConstant.hidePassword)
+                          : Text(TextConstant.showPassword),
                     ],
                   );
                 }),
@@ -94,7 +94,7 @@ class _SignUpViewState extends State<SignUpView> {
                     Expanded(
                       child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
-                            .collection('cities')
+                            .collection(TextConstant.dbTEXTCities)
                             .snapshots(),
                         builder:
                             (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -111,7 +111,7 @@ class _SignUpViewState extends State<SignUpView> {
                             List<String> list =
                                 snapshot.data!.docs.map((e) => e.id).toList();
                             list.insert(0,
-                                'İl Seçiniz'); // "İl Seçiniz" ifadesini ekleyin
+                                TextConstant.selectCity); // "İl Seçiniz" ifadesini ekleyin
                             return CustomDropdownMenuCity(
                               list: list,
                             );
@@ -125,11 +125,11 @@ class _SignUpViewState extends State<SignUpView> {
                         builder: (context, provider, _) {
                           return StreamBuilder<QuerySnapshot>(
                             stream: provider.city != null &&
-                                    provider.city != 'İl Seçiniz'
+                                    provider.city != TextConstant.selectCity
                                 ? FirebaseFirestore.instance
-                                    .collection('cities')
+                                    .collection(TextConstant.dbTEXTCities)
                                     .doc(provider.city)
-                                    .collection('districts')
+                                    .collection(TextConstant.dbTEXTDistricts)
                                     .snapshots()
                                 : null,
                             builder: (context, snapshot) {
@@ -144,17 +144,17 @@ class _SignUpViewState extends State<SignUpView> {
                               } else if (snapshot.data == null ||
                                   snapshot.data!.docs.isEmpty) {
                                 print(provider.district);
-                                List<String> noList = ['İlçe Seçiniz'];
+                                List<String> noList = [TextConstant.selectDistrict];
                                 return CustomDropdownMenuDistrict(list: noList);
-                              } else if (provider.city == 'İl Seçiniz') {
-                                List<String> noList = ['İlçe Seçiniz'];
+                              } else if (provider.city == TextConstant.selectCity) {
+                                List<String> noList = [TextConstant.selectDistrict];
                                 print(provider.district);
                                 return CustomDropdownMenuDistrict(list: noList);
                               } else {
                                 List<String> districtList = snapshot.data!.docs
                                     .map((e) => e.id)
                                     .toList();
-                                districtList.insert(0, 'İlçe Seçiniz');
+                                districtList.insert(0, TextConstant.selectDistrict);
 
                                 print(provider.district);
 
@@ -175,13 +175,13 @@ class _SignUpViewState extends State<SignUpView> {
                       Consumer<LoginViewModel>(builder: (context, provider, _) {
                     return StreamBuilder<QuerySnapshot>(
                       stream: provider.city != null &&
-                              provider.city != 'İlçe Seçiniz'
+                              provider.city != TextConstant.selectDistrict
                           ? FirebaseFirestore.instance
-                              .collection('cities')
+                              .collection(TextConstant.dbTEXTCities)
                               .doc(provider.city)
-                              .collection('districts')
+                              .collection(TextConstant.dbTEXTDistricts)
                               .doc(provider.district)
-                              .collection('schools')
+                              .collection(TextConstant.dbTEXTSchools)
                               .snapshots()
                           : null,
                       builder: (context, snapshot) {
@@ -194,15 +194,15 @@ class _SignUpViewState extends State<SignUpView> {
                               child: Text('Error: ${snapshot.error}'));
                         } else if (snapshot.data == null ||
                             snapshot.data!.docs.isEmpty) {
-                          List<String> noList = ['Okul Seçiniz'];
+                          List<String> noList = [TextConstant.selectSchool];
                           return CustomDropdownMenuSchool(list: noList);
-                        } else if (provider.district == 'İlçe Seçiniz') {
-                          List<String> noList = ['Okul Seçiniz'];
+                        } else if (provider.district == TextConstant.selectDistrict) {
+                          List<String> noList = [TextConstant.selectSchool];
                           return CustomDropdownMenuSchool(list: noList);
                         } else {
                           List<String> schoolList =
                               snapshot.data!.docs.map((e) => e.id).toList();
-                          schoolList.insert(0, 'Okul Seçiniz');
+                          schoolList.insert(0, TextConstant.selectSchool);
 
                           return CustomDropdownMenuSchool(list: schoolList);
                         }
@@ -219,7 +219,7 @@ class _SignUpViewState extends State<SignUpView> {
                           enabled: provider.isSchoolFound,
                           validator: (provider.isSchoolFound) ? (value) {
                            if(schoolName.text.isEmpty){
-                             return 'Lütfen forma okul ismini giriniz';
+                             return TextConstant.pleaseEntryData;
                            }else {
                              provider.schoolChange(schoolName.text);
                            }
@@ -235,8 +235,8 @@ class _SignUpViewState extends State<SignUpView> {
                                 provider.schoolFoundChange();
                               }),
                           (provider.isSchoolFound)
-                              ? Text('Okulum Var')
-                              : Text('Okulum Yok'),
+                              ? const Text(TextConstant.haveSchool)
+                              : const Text(TextConstant.dontHaveSchool),
                         ],
                       )
                     ],
@@ -259,12 +259,12 @@ class _SignUpViewState extends State<SignUpView> {
                               child: Text('Error: ${snapshot.error}'));
                         } else if (snapshot.data == null ||
                             snapshot.data!.docs.isEmpty) {
-                          List<String> noList = ['Branş Seçiniz'];
+                          List<String> noList = [TextConstant.selectBranch];
                           return CustomDropdownMenuBranch(list: noList);
                         } else {
                           List<String> branchList =
                               snapshot.data!.docs.map((e) => e.id).toList();
-                          branchList.insert(0, 'Branş Seçiniz');
+                          branchList.insert(0, TextConstant.selectBranch);
                           return CustomDropdownMenuBranch(list: branchList);
                         }
                       },
@@ -280,12 +280,13 @@ class _SignUpViewState extends State<SignUpView> {
                             : () async {
                                 provider.buttonClickChange();
                                 if (_key.currentState!.validate()) {
-                                    if (provider.city != 'İl Seçiniz' &&
-                                        provider.district != 'İlçe Seçiniz' &&
-                                        provider.school != 'Okul Seçiniz' && provider.school.isNotEmpty && provider.branch!='Branş Seçiniz' && provider.branch.isNotEmpty) {
+                                    if (provider.city != TextConstant.selectCity &&
+                                        provider.district != TextConstant.selectDistrict &&
+                                        provider.school != TextConstant.selectSchool && provider.school.isNotEmpty && provider.branch!=TextConstant.selectBranch && provider.branch.isNotEmpty) {
 
                                       await _loginViewModel
                                           .registerUserAndAddToFirestore(
+                                        context: context,
                                               email: emailCtrl.text,
                                               password: passwordCtrl.text,
                                               name: nameCtrl.text,
@@ -296,18 +297,13 @@ class _SignUpViewState extends State<SignUpView> {
                                               schoolID: 'schoolID',
                                               school: (!provider.isSchoolFound) ? provider.school : schoolName.text);
                                     } else {
-                                      print('school: ${provider.school}');
                                       MotionToast.error(
-                                        title: Text("Dikkat"),
-                                        description: Text(
-                                            "İl, ilçe, okul ve branş bilgilerinizi girdiğinizden emin olun!"),
+                                        title: const Text(TextConstant.beCareful),
+                                        description: const Text(TextConstant.cityDistrictSchoolBranch),
                                         position: MotionToastPosition.center,
                                       ).show(context);
                                     }
 
-                                } else {
-                                  print(provider.school);
-                                  print('bişeylee olupduru');
                                 }
 
                                 provider.buttonClickChange();
