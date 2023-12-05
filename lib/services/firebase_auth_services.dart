@@ -18,6 +18,11 @@ class FirebaseAuthServices {
     }
   }
 
+  String? getUserUid() {
+    User? user = firebaseAuth.currentUser;
+    return user?.uid;
+  }
+
   Future<void> singIn (String email, String password) async {
     try{
       await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);

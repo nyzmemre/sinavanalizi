@@ -4,13 +4,14 @@ import '../utilty/constants/color_constant.dart';
 import '../utilty/constants/text_constant.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({super.key, required this.labelText, this.validator, this.keyboardType, this.controller, this.isVisible, this.eneblad});
+  CustomTextFormField({super.key, required this.labelText, this.validator, this.keyboardType, this.controller, this.isVisible, this.eneblad, this.passwordMatch});
   // ignore: strict_raw_type
   final String labelText;
   final FormFieldValidator<String>? validator;
   final bool? isVisible;
   final TextInputType? keyboardType;
   final bool? eneblad;
+  final String? passwordMatch;
 
   TextEditingController? controller = TextEditingController();
 
@@ -24,6 +25,10 @@ class CustomTextFormField extends StatelessWidget {
       enabled: eneblad ?? true,
       keyboardType: keyboardType,
       validator: validator ?? (value){
+        if (validator != null) {
+          return validator!(value);
+        }
+
         if(value==null || value=='') {
           return '$labelText ${TextConstant.notEmpty}';
         }
@@ -36,6 +41,12 @@ class CustomTextFormField extends StatelessWidget {
           if (!value.contains('@') ||
               !value.contains('.com')) {
             return TextConstant.validateEmail;
+          } else if(labelText==TextConstant.passwordAgain){
+            if(controller!.text!=passwordMatch){
+              print(controller!.text);
+              print(passwordMatch);
+              return TextConstant.passwordNotSame;
+            }
           }
           return null;
         }

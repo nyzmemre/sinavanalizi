@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sinavanalizi/services/firebase_auth_services.dart';
 
 class LoginViewModel extends ChangeNotifier {
+  FirebaseAuthServices _authServices=FirebaseAuthServices();
+
+
   ///Başlangıçta bu değerleri veriyorum
   ///Çünkü seçim yapılınca sonraki dropdown açılmalı, başta açılmamalı.
   String _city='İl Seçiniz';
@@ -40,6 +44,46 @@ class LoginViewModel extends ChangeNotifier {
     _branch=value;
     notifyListeners();
   }
+
+  Future<void> registerUserAndAddToFirestore({
+    required String email,
+    required String password,
+    required String name,
+    required String surname,
+    required String branch,
+    required String city,
+    required String district,
+    required String schoolID,
+    required String school,
+  }) async {
+    try {
+      // Firebase Authentication ile kullanıcı oluşturma
+      await _authServices.singUp(email, password);
+
+      // Oluşturulan kullanıcının UID'sini al
+      String uid = _authServices.getUserUid() ?? '';
+
+      // Firestore bağlantısı
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      // Kullanıcı verilerini Firestore'a ekleme
+      await firestore.collection('users').doc(uid).set({
+        'name': name,
+        'surname': surname,
+        'email': email,
+        'branch': branch,
+        'city': city,
+        'district': district,
+        'schoolID': schoolID,
+        'school': school,
+      });
+
+      print('Kullanıcı başarıyla oluşturuldu ve Firestore\'a eklendi.');
+    } catch (e) {
+      print('Hata oluştu: $e');
+    }
+  }
+
 
   String get city=>_city;
   String get district=>_district;
