@@ -1,5 +1,8 @@
+import 'dart:js_util';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:sinavanalizi/services/firebase_auth_services.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -14,6 +17,7 @@ class LoginViewModel extends ChangeNotifier {
   String _branch='Branş Seçiniz';
   bool _isVisible=false;
   bool _isSchoolFound=false;
+  bool _isClickButton=false;
 
 
   void schoolFoundChange(){
@@ -42,6 +46,11 @@ class LoginViewModel extends ChangeNotifier {
 
   void branchChange(String value){
     _branch=value;
+    notifyListeners();
+  }
+
+  void buttonClickChange(){
+    _isClickButton=!_isClickButton;
     notifyListeners();
   }
 
@@ -77,9 +86,16 @@ class LoginViewModel extends ChangeNotifier {
         'schoolID': schoolID,
         'school': school,
       });
-
+      MotionToast.success(
+        title: Text('Tebrikler'),
+        description: Text('Kayıt başarıyla olşturuldu.'),
+      );
       print('Kullanıcı başarıyla oluşturuldu ve Firestore\'a eklendi.');
     } catch (e) {
+      MotionToast.error(
+        title: Text('Hata'),
+        description: Text('Bir sorun var gibi görünüyor. $e'),
+      );
       print('Hata oluştu: $e');
     }
   }
@@ -91,4 +107,5 @@ class LoginViewModel extends ChangeNotifier {
   String get branch=>_branch;
   bool get isVisible=>_isVisible;
   bool get isSchoolFound=>_isSchoolFound;
+  bool get isClickButton=>_isClickButton;
 }
