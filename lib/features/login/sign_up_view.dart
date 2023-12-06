@@ -6,6 +6,7 @@ import 'package:motion_toast/resources/arrays.dart';
 import 'package:provider/provider.dart';
 import 'package:sinavanalizi/features/login/login_view_model.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
+import 'package:sinavanalizi/product/utilty/validators/textform_validators.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_branch.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
@@ -28,7 +29,7 @@ class _SignUpViewState extends State<SignUpView> {
   final surnameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
-  final passwordAgainCtrl = TextEditingController();
+  final confirmPasswordCtrl = TextEditingController();
   final schoolName = TextEditingController();
   LoginViewModel _loginViewModel = LoginViewModel();
 
@@ -38,7 +39,7 @@ class _SignUpViewState extends State<SignUpView> {
     surnameCtrl.dispose();
     emailCtrl.dispose();
     passwordCtrl.dispose();
-    passwordAgainCtrl.dispose();
+    confirmPasswordCtrl.dispose();
     schoolName.dispose();
     super.dispose();
   }
@@ -332,12 +333,10 @@ class _SignUpViewState extends State<SignUpView> {
           ),
           context.sized.emptySizedHeightBoxLow,
           CustomTextFormField(
-            controller: passwordAgainCtrl,
+            controller: confirmPasswordCtrl,
             isVisible: (provider.isVisible) ? false : true,
             validator: (value) {
-              if (passwordCtrl.text != passwordAgainCtrl.text) {
-                return TextConstant.passwordNotSame;
-              }
+             return TextFormValidator.validatePasswordMatch(passwordCtrl.text, confirmPasswordCtrl.text);
             },
             labelText: TextConstant.passwordAgain,
           ),

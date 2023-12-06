@@ -38,7 +38,6 @@ class TextConstant{
   static const String validatePassword='Lütfen şifrenizi giriniz!';
   static const String passwordNotSame='Şifreleriniz aynı olmalıdır.';
   static const String mailNotEmptyError='Mail adresi boş olamaz!';
-  static const String numberLengthERROR='11 karakterden az olamaz!';
   static const String groupIsContainERROR='Bu isimde zaten grup var!';
   static const String groupNotExistStudentERROR='Grupta Öğrenci Bulunamadı';
   static const String payNotFoundERROR='Ödeme Bulunamadı.';
