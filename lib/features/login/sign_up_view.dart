@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sinavanalizi/features/login/login_view_model.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/utilty/validators/textform_validators.dart';
-import 'package:sinavanalizi/product/widgets/custom_dropdownmenu.dart';
+import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_city.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_branch.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_school.dart';
@@ -15,6 +15,7 @@ import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 import 'package:sinavanalizi/services/firebase_auth_services.dart';
 
 import '../../product/utilty/constants/text_constant.dart';
+import '../../product/widgets/custom_dropdownmenu.dart';
 
 class SignUpView extends StatefulWidget {
   SignUpView({Key? key}) : super(key: key);
@@ -113,8 +114,15 @@ class _SignUpViewState extends State<SignUpView> {
                                 snapshot.data!.docs.map((e) => e.id).toList();
                             list.insert(0,
                                 TextConstant.selectCity); // "İl Seçiniz" ifadesini ekleyin
-                            return CustomDropdownMenuCity(
-                              list: list,
+                            return Consumer<LoginViewModel>(
+                              builder: (context, provider, _) {
+
+                                return CustomDropdownMenu(
+                                  initialSelection: list.first,
+                                  list: list,
+                                  function: provider.cityChange,
+                                );
+                              },
                             );
                           }
                         },
@@ -146,11 +154,22 @@ class _SignUpViewState extends State<SignUpView> {
                                   snapshot.data!.docs.isEmpty) {
                                 print(provider.district);
                                 List<String> noList = [TextConstant.selectDistrict];
-                                return CustomDropdownMenuDistrict(list: noList);
+                                return CustomDropdownMenu(
+                                    initialSelection: TextConstant.selectDistrict,
+                                    function: provider.districtChange,
+                                    list: noList,
+                                  enabled: (provider.city!=TextConstant.selectCity) ? true : false,
+                                );
                               } else if (provider.city == TextConstant.selectCity) {
                                 List<String> noList = [TextConstant.selectDistrict];
                                 print(provider.district);
-                                return CustomDropdownMenuDistrict(list: noList);
+                                return CustomDropdownMenu(
+                                    initialSelection: TextConstant.selectDistrict,
+                                    function: provider.districtChange,
+                                    list: noList,
+                                  enabled: (provider.city!=TextConstant.selectCity) ? true : false,
+
+                                );
                               } else {
                                 List<String> districtList = snapshot.data!.docs
                                     .map((e) => e.id)
@@ -159,8 +178,14 @@ class _SignUpViewState extends State<SignUpView> {
 
                                 print(provider.district);
 
-                                return CustomDropdownMenuDistrict(
-                                    list: districtList);
+                                return CustomDropdownMenu(
+                                  initialSelection:  provider.district != TextConstant.selectDistrict ? provider.district : districtList.first,
+                                    list: districtList,
+                                  function: provider.districtChange,
+
+
+
+                                );
                               }
                             },
                           );
@@ -196,16 +221,31 @@ class _SignUpViewState extends State<SignUpView> {
                         } else if (snapshot.data == null ||
                             snapshot.data!.docs.isEmpty) {
                           List<String> noList = [TextConstant.selectSchool];
-                          return CustomDropdownMenuSchool(list: noList);
+                          return CustomDropdownMenu (
+                            initialSelection: TextConstant.selectSchool,
+                              list: noList,
+                            function: provider.schoolChange,
+                            enabled: (provider.district!=TextConstant.selectDistrict && !provider.isSchoolFound) ? true : false,
+                          );
                         } else if (provider.district == TextConstant.selectDistrict) {
                           List<String> noList = [TextConstant.selectSchool];
-                          return CustomDropdownMenuSchool(list: noList);
+                          return CustomDropdownMenu (
+                            initialSelection: TextConstant.selectSchool,
+                            list: noList,
+                            function: provider.schoolChange,
+                            enabled: (provider.district!=TextConstant.selectDistrict && !provider.isSchoolFound) ? true : false,
+                          );
                         } else {
                           List<String> schoolList =
                               snapshot.data!.docs.map((e) => e.id).toList();
                           schoolList.insert(0, TextConstant.selectSchool);
 
-                          return CustomDropdownMenuSchool(list: schoolList);
+                          return CustomDropdownMenu(
+                              list: schoolList,
+                            function: provider.schoolChange,
+                            initialSelection: provider.school != TextConstant.selectSchool ? provider.school : schoolList.first,
+
+                          );
                         }
                       },
                     );
@@ -261,12 +301,20 @@ class _SignUpViewState extends State<SignUpView> {
                         } else if (snapshot.data == null ||
                             snapshot.data!.docs.isEmpty) {
                           List<String> noList = [TextConstant.selectBranch];
-                          return CustomDropdownMenuBranch(list: noList);
+                          return CustomDropdownMenu (
+                            initialSelection: TextConstant.selectBranch,
+                            list: noList,
+                            function: provider.branchChange,
+                          );
                         } else {
                           List<String> branchList =
                               snapshot.data!.docs.map((e) => e.id).toList();
                           branchList.insert(0, TextConstant.selectBranch);
-                          return CustomDropdownMenuBranch(list: branchList);
+                          return CustomDropdownMenu(
+                              initialSelection: provider.branch != TextConstant.selectBranch ? provider.branch : branchList.first,
+                              function: provider.branchChange,
+                              list: branchList
+                          );
                         }
                       },
                     );
