@@ -7,10 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:sinavanalizi/features/login/login_view_model.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/utilty/validators/textform_validators.dart';
-import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_city.dart';
-import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_branch.dart';
-import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_district.dart';
-import 'package:sinavanalizi/product/widgets/custom_dropdownmenu_school.dart';
 import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 import 'package:sinavanalizi/services/firebase_auth_services.dart';
 
