@@ -57,6 +57,14 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> resetPassword(BuildContext context, String email) async {
+    await _authServices.resetPassword(email).then((value) => MotionToast.success(
+      // title: Text('Başarılı'),
+      description: Text('Parolayı sıfırlamak için mail adresinizi kontrol edin.'),
+    ).show(context) );
+
+  }
+
   Future<void> registerUserAndAddToFirestore({
     required BuildContext context,
     required String email,
@@ -93,17 +101,18 @@ class LoginViewModel extends ChangeNotifier {
       MotionToast.success(
         title: Text('Tebrikler'),
         description: Text('Kayıt başarıyla olşturuldu.'),
-      );
+      ).show(context);
       Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
       print('Kullanıcı başarıyla oluşturuldu ve Firestore\'a eklendi.');
     } catch (e) {
       MotionToast.error(
         title: Text('Hata'),
         description: Text('Bir sorun var gibi görünüyor. $e'),
-      );
+      ).show(context);
       print('Hata oluştu: $e');
     }
   }
+
 
 
 

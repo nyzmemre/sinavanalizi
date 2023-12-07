@@ -28,6 +28,7 @@ class TextConstant{
   static const String selectDistrict='İlçe Seçiniz';
   static const String selectSchool='Okul Seçiniz';
   static const String selectBranch='Branş Seçiniz';
+  static const String resetPassword='Şifreyi sıfırla.';
 
 
   ///errorMessage

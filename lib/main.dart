@@ -12,6 +12,8 @@ import 'package:sinavanalizi/firebase_options.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/utilty/constants/text_constant.dart';
 
+import 'features/login/forgot_password.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -64,7 +66,7 @@ class SinavAnalizi extends StatelessWidget {
       // home: StudentDetailView(studentID: 'bkB0iVrJxsyJp1SS3Oil',),
       // home: CategoryAddView(),
       // home: StudentInfoUpdateView(),
-      home: SignUpView()
+      home: ForgotPasswordView()
       //onGenerateRoute: Routes.createRoutes,
     );
   }
