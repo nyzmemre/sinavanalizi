@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:sinavanalizi/features/homepage/homepage_view.dart';
 import 'package:sinavanalizi/product/utilty/constants/text_constant.dart';
+import 'package:sinavanalizi/product/utilty/validators/textform_validators.dart';
+import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
@@ -24,31 +26,15 @@ class LoginView extends StatelessWidget {
             children: [
               const Text(TextConstant.signIn),
               context.sized.emptySizedHeightBoxLow,
-              TextFormField(
-                validator: (value){
-                  if(value!=null) {
-                    if(value.length<3)
-                      {return TextConstant.mailNotEmptyError;}
-                  }
-                },
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: TextConstant.mailAdress,
-                ),
+              CustomTextFormField(
+                labelText: TextConstant.mailAdress,
+
                 controller: emailCtrl,
               ),
               context.sized.emptySizedHeightBoxLow,
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: TextConstant.password,
-                ),
-                validator: (value){
-                  if(value!=null) {
-                    if(value.length<6)
-                    {return 'Şifre 6 karakterden az olamaz!';}
-                  }
-                },
+              CustomTextFormField(
+                labelText: TextConstant.password,
+
                 controller: passwordCtrl,
               ),
               context.sized.emptySizedHeightBoxLow,

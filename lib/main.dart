@@ -66,7 +66,7 @@ class SinavAnalizi extends StatelessWidget {
       // home: StudentDetailView(studentID: 'bkB0iVrJxsyJp1SS3Oil',),
       // home: CategoryAddView(),
       // home: StudentInfoUpdateView(),
-      home: ForgotPasswordView()
+      home: LoginView()
       //onGenerateRoute: Routes.createRoutes,
     );
   }
