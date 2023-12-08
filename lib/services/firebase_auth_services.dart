@@ -23,15 +23,11 @@ class FirebaseAuthServices {
     return user?.uid;
   }
 
-  Future<void> singIn (String email, String password) async {
-    try{
+  Future<void> singIn(String email, String password) async {
+    try {
       await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseException catch(e){
-      if(e.code=='user-not-found'){
-        print('Mail adresiniz kayıtlı değil.');
-      }else if (e.code=='wrong-password') {
-        print('Şifreniz yanlış.');
-      }
+    } on FirebaseAuthException catch (e) {
+      throw e;
     }
   }
 

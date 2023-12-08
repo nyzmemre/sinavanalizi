@@ -114,6 +114,31 @@ class LoginViewModel extends ChangeNotifier {
   }
 
 
+  Future<void> singIn(BuildContext context, String email, String password) async {
+    try {
+      await _authServices.singIn(email, password);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+
+
+    } on FirebaseAuthException catch (e) {
+      print('asdfasfd: $e');
+      String errorMessage = 'Bilinmeyen bir hata oluştu';
+      if (e.code == 'invalid-login-credentials') {
+        errorMessage = 'Giriş bilgileriniz yanlış.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Şifre yanlış.';
+      } else if (e.code == 'invalid-email') {
+        errorMessage = 'Geçersiz e-posta adresi formatı.';
+      }else if (e.code == 'network-request-failed') {
+        errorMessage = 'İnternet bağlantınızı kontrol edin.';
+      }
+
+        MotionToast.error(
+        title: const Text('Hata'),
+        description: Text(errorMessage),
+      ).show(context);
+    }
+  }
 
 
 
