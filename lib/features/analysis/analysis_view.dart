@@ -17,7 +17,9 @@ class AnalysisView extends StatelessWidget {
               radius: 0,
               highlightColor: ColorConstant.transparent,
               focusColor: Colors.amber,
-              onTap: (){},
+              onTap: (){
+                
+              },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
