@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:sinavanalizi/services/read_document.dart';
+import 'package:sinavanalizi/services/upload_file.dart';
 import '../utilty/constants/color_constant.dart';
 
 class CustomAddWidget extends StatelessWidget {
-  const CustomAddWidget({Key? key, required this.text, required this.widget}) : super(key: key);
+  const CustomAddWidget({Key? key, required this.text}) : super(key: key);
   final String text;
-  final Widget widget;
 
 
   @override
@@ -15,9 +16,25 @@ class CustomAddWidget extends StatelessWidget {
       radius: 0,
       highlightColor: ColorConstant.transparent,
       focusColor: Colors.amber,
-      onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>widget));
-      },
+      onTap: () => showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(text),
+          content: ElevatedButton(onPressed: ()async{
+            await ReadDocument().processExcelFile();
+          }, child: Text('Dosyayı Yükle')),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

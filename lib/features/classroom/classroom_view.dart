@@ -13,7 +13,6 @@ class ClassroomView extends StatelessWidget {
     return Scaffold(
       body: Center(child: CustomAddWidget(
         text: TextConstant.addClass,
-        widget: Text(''),
       ))
     );
   }
