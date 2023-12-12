@@ -11,6 +11,7 @@ import 'package:sinavanalizi/features/login/sign_up_view.dart';
 import 'package:sinavanalizi/firebase_options.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/utilty/constants/text_constant.dart';
+import 'package:sinavanalizi/services/read_document.dart';
 
 import 'features/login/forgot_password.dart';
 
@@ -27,6 +28,7 @@ void main() async {
    MultiProvider(
         providers: [
           ChangeNotifierProvider<LoginViewModel>(create: (_) => LoginViewModel()),
+          ChangeNotifierProvider<ReadDocument>(create: (_) => ReadDocument()),
         ],
         child: const SinavAnalizi()));
 }
