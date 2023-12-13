@@ -10,6 +10,7 @@ class AddedClassView extends StatelessWidget {
     return  Scaffold(
       body: Consumer<ReadDocument>(
           builder: (context, provider, _) {
+            print(provider.studentSurnames);
             if(provider.school != null) {
               return Center(
                 child: SingleChildScrollView(

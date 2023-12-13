@@ -21,6 +21,7 @@ class CustomAddWidget extends StatelessWidget {
 
           await ReadDocument().processExcelFile(context);
          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddedClassView()));
+
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,

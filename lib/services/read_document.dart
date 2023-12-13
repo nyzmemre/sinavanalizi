@@ -9,7 +9,7 @@ import 'package:motion_toast/resources/arrays.dart';
 class ReadDocument extends ChangeNotifier {
   String city = '';
   String district = '';
-  String school = '';
+  String? school;
   String className = '';
   int studentCount = -1;
   List<String> studentNumbers = [];
@@ -123,17 +123,17 @@ class ReadDocument extends ChangeNotifier {
           print('Öğrenci listesi boş.');
         } else {
           // İşlenen verileri kullanabilirsiniz
-      /// print('City: $city');
-      /// print('District: $district');
-      /// print('Class: $className');
-      /// print('Student Count: $studentCount');
-      /// print('Student Numbers: $studentNumbers');
-      /// print('Student Names: $studentNames');
-      /// print('Student Surnames: $studentSurnames');
+       print('City: $city');
+       print('District: $district');
+       print('Class: $className');
+       print('Student Count: $studentCount');
+       print('Student Numbers: $studentNumbers');
+       print('Student Names: $studentNames');
+       print('Student Surnames: $studentSurnames');
 
-      /// print(studentNumbers.length.toString());
-      /// print(studentNames.length.toString());
-      /// print(studentSurnames.length.toString());
+       print(studentNumbers.length.toString());
+       print(studentNames.length.toString());
+       print(studentSurnames.length.toString());
         }
       } else {
          MotionToast.error(
