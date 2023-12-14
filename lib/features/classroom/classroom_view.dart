@@ -19,23 +19,29 @@ class ClassroomView extends StatelessWidget {
           if (provider.studentNames != null && provider.studentNames!=[]) {
             return SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CustomAddWidget(
                     text: TextConstant.addClass,
                     onTap: () async {
+                      ///clearData() tekrar veri eklerken mevcut datayı silmek için kullanılıyor.
+                      provider.clearData();
                       await provider.processExcelFile(context);
                     },
                   ),
               if (provider.studentNumbers.isNotEmpty) Text('Bilgileri Kontrol Ediniz'),
               if (provider.city.isNotEmpty) Text('İl: ${provider.city}'),
               if (provider.district.isNotEmpty) Text('İlçe: ${provider.district}'),
-              if (provider.school!=null) Text('Okul: ${provider.school}'),
+              if (provider.school.isNotEmpty) Text('Okul: ${provider.school}'),
               if (provider.className.isNotEmpty) Text('Sınıf: ${provider.className}'),
               if (provider.studentNumbers.isNotEmpty) Text('Öğrenci Bilgileri'),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (provider.studentNumbers.isNotEmpty) customListview('No', provider.studentNumbers),
+                  context.sized.emptySizedWidthBoxLow,
                   if (provider.studentNames.isNotEmpty) customListview('Ad', provider.studentNames),
+                  context.sized.emptySizedWidthBoxLow,
                   if (provider.studentSurnames.isNotEmpty) customListview('Soyad', provider.studentSurnames),
                 ],
               )
@@ -52,23 +58,13 @@ class ClassroomView extends StatelessWidget {
 
   Widget customListview(String title, List<String> list) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(title),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: list.map((e) => Text(e)).toList(),
         )
-        /*Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            itemCount: list.length,
-            itemBuilder: (context, int index) {
-              return ListTile(
-                leading: Text(list[index]),
-              );
-            },
-          ),
-        ),*/
       ],
     );
   }

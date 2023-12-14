@@ -3,7 +3,6 @@ import 'package:kartal/kartal.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sinavanalizi/services/read_document.dart';
-import '../../features/classroom/added_class_view.dart';
 import '../utilty/constants/color_constant.dart';
 
 class CustomAddWidget extends StatelessWidget {

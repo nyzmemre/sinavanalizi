@@ -1,17 +1,16 @@
-import 'dart:html';
 import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart';
+
 import 'package:excel/excel.dart' as excel;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
-import 'package:sinavanalizi/features/classroom/added_class_view.dart';
 
 class ReadDocument extends ChangeNotifier {
   String city = '';
   String district = '';
-  String? school;
+  String school='';
   String className = '';
   int studentCount = -1;
   List<String> studentNumbers = [];
@@ -63,7 +62,6 @@ class ReadDocument extends ChangeNotifier {
                   .trim();
               className = uc + ' / ' + iki;
             }
-
             if (row[0] != null && row[0].toString().contains('Müdürlüğü')) {
               district = row[0]
                   .toString()
@@ -74,6 +72,10 @@ class ReadDocument extends ChangeNotifier {
                   .split('VALİLİĞİ')
                   .last
                   .trim();
+            }
+
+            if(row[0]!=null && row[0].toString().contains('Müdürlüğü')){
+              school=row[0].toString().split('Müdürlüğü').first.split(' / ').last.trim();
             }
 
             // "S.No" veya "Öğrenci No" sütunlarından birini buldukça öğrenci listesi bölümü içindeyiz
@@ -120,6 +122,7 @@ class ReadDocument extends ChangeNotifier {
           // İşlenen verileri kullanabilirsiniz
           print('City: $city');
           print('District: $district');
+          print('School: $school');
           print('Class: $className');
           print('Student Count: $studentCount');
           print('Student Numbers: $studentNumbers');
@@ -138,5 +141,16 @@ class ReadDocument extends ChangeNotifier {
             .show(context);
       }
     } notifyListeners();
+  }
+
+  void clearData(){
+    city = '';
+    district = '';
+    school='';
+    className = '';
+    studentCount = -1;
+    studentNumbers = [];
+    studentNames = [];
+    studentSurnames = [];
   }
 }
