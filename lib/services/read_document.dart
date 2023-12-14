@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:excel/excel.dart' as excel;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
+import 'package:sinavanalizi/features/classroom/added_class_view.dart';
 
 class ReadDocument extends ChangeNotifier {
   String city = '';
@@ -42,7 +44,6 @@ class ReadDocument extends ChangeNotifier {
                   .split('T.C.')
                   .last
                   .trim();
-              notifyListeners();
             }
 
             if (row[0] != null &&
@@ -61,8 +62,6 @@ class ReadDocument extends ChangeNotifier {
                   .last
                   .trim();
               className = uc + ' / ' + iki;
-
-              notifyListeners();
             }
 
             if (row[0] != null && row[0].toString().contains('Müdürlüğü')) {
@@ -75,7 +74,6 @@ class ReadDocument extends ChangeNotifier {
                   .split('VALİLİĞİ')
                   .last
                   .trim();
-              notifyListeners();
             }
 
             // "S.No" veya "Öğrenci No" sütunlarından birini buldukça öğrenci listesi bölümü içindeyiz
@@ -100,7 +98,6 @@ class ReadDocument extends ChangeNotifier {
               for (int i = 1; i < row.length; i++) {
                 if (row[i] != null) {
                   studentNumbers.add(row[i].toString());
-                  notifyListeners();
                 }
               }
             }
@@ -112,8 +109,6 @@ class ReadDocument extends ChangeNotifier {
               studentNumbers.removeWhere((element) => element == 'null');
               studentNames.removeWhere((element) => element == 'null');
               studentSurnames.removeWhere((element) => element == 'null');
-
-              notifyListeners();
             }
           }
         }
@@ -123,25 +118,25 @@ class ReadDocument extends ChangeNotifier {
           print('Öğrenci listesi boş.');
         } else {
           // İşlenen verileri kullanabilirsiniz
-       print('City: $city');
-       print('District: $district');
-       print('Class: $className');
-       print('Student Count: $studentCount');
-       print('Student Numbers: $studentNumbers');
-       print('Student Names: $studentNames');
-       print('Student Surnames: $studentSurnames');
+          print('City: $city');
+          print('District: $district');
+          print('Class: $className');
+          print('Student Count: $studentCount');
+          print('Student Numbers: $studentNumbers');
+          print('Student Names: $studentNames');
+          print('Student Surnames: $studentSurnames');
 
-       print(studentNumbers.length.toString());
-       print(studentNames.length.toString());
-       print(studentSurnames.length.toString());
+          print(studentNumbers.length.toString());
+          print(studentNames.length.toString());
+          print(studentSurnames.length.toString());
         }
       } else {
-         MotionToast.error(
-           position: MotionToastPosition.center,
+        MotionToast.error(
+                position: MotionToastPosition.center,
                 description:
                     Text('Lütfen dosya uzantısı XLSX olan bir belge seçiniz!'))
             .show(context);
       }
-    }
+    } notifyListeners();
   }
 }

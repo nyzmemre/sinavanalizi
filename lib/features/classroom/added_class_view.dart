@@ -10,8 +10,9 @@ class AddedClassView extends StatelessWidget {
     return  Scaffold(
       body: Consumer<ReadDocument>(
           builder: (context, provider, _) {
-            print(provider.studentSurnames);
-            if(provider.school != null) {
+            print(provider.studentSurnames.length);
+            print(provider.studentCount);
+            if(provider.studentCount != -1) {
               return Center(
                 child: SingleChildScrollView(
                   physics: ScrollPhysics(),

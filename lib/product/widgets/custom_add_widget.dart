@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:provider/provider.dart';
 import 'package:sinavanalizi/services/read_document.dart';
 import '../../features/classroom/added_class_view.dart';
 import '../utilty/constants/color_constant.dart';
 
 class CustomAddWidget extends StatelessWidget {
-  const CustomAddWidget({Key? key, required this.text}) : super(key: key);
+  const CustomAddWidget({Key? key, required this.text, required this.onTap}) : super(key: key);
   final String text;
-
+  final Function()?onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +18,7 @@ class CustomAddWidget extends StatelessWidget {
       radius: 0,
       highlightColor: ColorConstant.transparent,
       focusColor: Colors.amber,
-      onTap: ()async{
-
-          await ReadDocument().processExcelFile(context);
-         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddedClassView()));
-
-      },
+      onTap: onTap ?? (){},
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
