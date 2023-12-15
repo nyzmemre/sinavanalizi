@@ -17,6 +17,7 @@ class TextConstant{
   static const String passwordAgain='Şifre Tekrar';
   static const String mailAdress='Mail Adresi';
   static const String addClass='Sınıf Ekle';
+  static const String addClassAgain='Yeni Sınıf Ekle';
   static const String addExam='Sınav Ekle';
   static const String addStudent='Öğrenci Ekle';
   static const String analysis='Analiz';

@@ -15,6 +15,19 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Padding(
+      padding: context.padding.onlyTopHigh,
+      child: Scaffold(
+       
+        body: ClassroomView(),
+
+      ),
+    );
+  }
+}
+/*
+  @override
+  Widget build(BuildContext context) {
     return DefaultTabController(
           length: 2,
           initialIndex: 0,
@@ -49,3 +62,4 @@ labelColor: ColorConstant.greyLight,
         );
   }
 }
+*/

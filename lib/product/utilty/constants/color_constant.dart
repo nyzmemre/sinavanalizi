@@ -10,4 +10,5 @@ class ColorConstant{
   static const Color primaryBlue=Color(0xFF52B6DF);
   static const Color greyLight=Color(0xFFF1F5F9);
   static const Color appGreen=Color(0xFF186351);
+  static const Color appRed=Color(0xFFBA0404);
 }
