@@ -3,16 +3,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sinavanalizi/features/acquisition/acquisition_view_model.dart';
+import 'package:sinavanalizi/features/exam/exam_view_model.dart';
 import 'package:sinavanalizi/features/homepage/homepage_view.dart';
 import 'package:sinavanalizi/features/login/login_view.dart';
 import 'package:sinavanalizi/features/login/login_view_model.dart';
 import 'package:sinavanalizi/features/login/sign_up_view.dart';
+import 'package:sinavanalizi/features/branch/branch_view_model.dart';
 
 import 'package:sinavanalizi/firebase_options.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/utilty/constants/text_constant.dart';
 import 'package:sinavanalizi/services/read_document.dart';
 
+import 'features/exam/add_exam_view.dart';
 import 'features/login/forgot_password.dart';
 
 void main() async {
@@ -29,6 +33,9 @@ void main() async {
         providers: [
           ChangeNotifierProvider<LoginViewModel>(create: (_) => LoginViewModel()),
           ChangeNotifierProvider<ReadDocument>(create: (_) => ReadDocument()),
+          ChangeNotifierProvider<BranchViewModel>(create: (_) => BranchViewModel()),
+          ChangeNotifierProvider<AcquisitionViewModel>(create: (_) => AcquisitionViewModel()),
+          ChangeNotifierProvider<ExamViewModel>(create: (_) => ExamViewModel()),
         ],
         child: const SinavAnalizi()));
 }
@@ -68,7 +75,7 @@ class SinavAnalizi extends StatelessWidget {
       // home: StudentDetailView(studentID: 'bkB0iVrJxsyJp1SS3Oil',),
       // home: CategoryAddView(),
       // home: StudentInfoUpdateView(),
-      home: HomePage()
+      home: AddExamView()
       //onGenerateRoute: Routes.createRoutes,
     );
   }

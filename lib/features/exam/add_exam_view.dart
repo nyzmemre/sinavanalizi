@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../product/widgets/custom_dropdownmenu.dart';
 import '../acquisition/acquisition_view_model.dart';
+import 'exam_view_model.dart';
 
 class AddExamView extends StatelessWidget {
   const AddExamView({Key? key}) : super(key: key);
@@ -38,20 +39,36 @@ class AddExamView extends StatelessWidget {
                 context.sized.emptySizedHeightBoxLow,
                 SizedBox(
                   height: 50,
-                  child: Consumer<AcquisitionViewModel>(
+                  child: Consumer<ExamViewModel>(
                     builder: (context, provider, _) {
                       return CustomDropdownMenu(
                         list: const [
                           '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
                           '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'
                         ],
-                        initialSelection: '10',
-                        function: provider.changeAcquisition,
+                        initialSelection: provider.numberOfQuess,
+                        function: provider.changeNumberOfQuess,
                       );
                     },
                   ),
                 ),
-
+context.sized.emptySizedHeightBoxLow,
+                Text('Dönem Seçiniz'),
+                context.sized.emptySizedHeightBoxLow,
+                SizedBox(
+                  height: 50,
+                  child: Consumer<ExamViewModel>(
+                    builder: (context, provider, _) {
+                      return CustomDropdownMenu(
+                        list: const [
+                          '1', '2'
+                        ],
+                        initialSelection: provider.periodNum,
+                        function: provider.changePeriodNum,
+                      );
+                    },
+                  ),
+                ),
                 // Buraya `Expanded` widget'ını ekleyebilirsiniz.
 
               ],
@@ -60,5 +77,8 @@ class AddExamView extends StatelessWidget {
         ),
       ),
     );
+  }
+  void selectPeriodNum(String val) {
+
   }
 }

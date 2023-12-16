@@ -20,7 +20,7 @@ class ReadDocument extends ChangeNotifier {
   Future<void> processExcelFile(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['xls', 'xlsx'],
+      allowedExtensions: ['xls', 'xlsx', 'pdf'],
     );
 
     if (result != null) {
