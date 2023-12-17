@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
@@ -34,3 +35,4 @@ class AcquisitionView extends StatelessWidget {
     );
   }
 }
+*/

@@ -69,6 +69,18 @@ context.sized.emptySizedHeightBoxLow,
                     },
                   ),
                 ),
+
+                Consumer<AcquisitionViewModel>(
+                  builder: (context, provider,_) {
+                    return ElevatedButton(onPressed: (){
+                      provider.acquisitionList.where((element) {
+
+                        (element.acquisitionBranch=='Matematik' && element.acquisitionClass=='5') ? print(element.acquisitionName) : print('ok');
+                        return true;
+                      });
+                    }, child: Text('tıkla'));
+                  },
+                )
                 // Buraya `Expanded` widget'ını ekleyebilirsiniz.
 
               ],
