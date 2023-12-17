@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sinavanalizi/features/acquisition/acquisition_view_model.dart';
+import 'package:sinavanalizi/features/classroom/classroom_view.dart';
 import 'package:sinavanalizi/features/exam/exam_view_model.dart';
 import 'package:sinavanalizi/features/homepage/homepage_view.dart';
 import 'package:sinavanalizi/features/login/login_view.dart';
@@ -75,7 +76,7 @@ class SinavAnalizi extends StatelessWidget {
       // home: StudentDetailView(studentID: 'bkB0iVrJxsyJp1SS3Oil',),
       // home: CategoryAddView(),
       // home: StudentInfoUpdateView(),
-      home: AddExamView()
+      home: ClassroomView()
       //onGenerateRoute: Routes.createRoutes,
     );
   }

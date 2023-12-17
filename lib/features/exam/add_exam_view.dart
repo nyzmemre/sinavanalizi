@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:sinavanalizi/features/acquisition/select_acquisition_view.dart';
 import 'package:sinavanalizi/features/branch/branch_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:sinavanalizi/services/read_document.dart';
 
 import '../../product/widgets/custom_dropdownmenu.dart';
 import '../acquisition/acquisition_view_model.dart';
@@ -27,9 +29,27 @@ class AddExamView extends StatelessWidget {
                   child: Consumer<BranchViewModel>(
                     builder: (context, provider, _) {
                       return CustomDropdownMenu(
-                        list: ['Branş Seçiniz', 'Matematik', 'Türkçe', 'İngilizce'],
+                        list: ['Matematik', 'Türkçe', 'İngilizce'],
                         initialSelection: 'Branş Seçiniz',
+                        hintText: 'Branş Seçiniz',
                         function: provider.changeBranch,
+                      );
+                    },
+                  ),
+                ),
+
+                context.sized.emptySizedHeightBoxLow,
+                Text('Sınıf Seviyesi Seçiniz'),
+                context.sized.emptySizedHeightBoxLow,
+                SizedBox(
+                  height: 50,
+                  child: Consumer<ExamViewModel>(
+                    builder: (context, provider, _) {
+                      return CustomDropdownMenu(
+                        list: ['1. Sınıf', '2. Sınıf', '3. Sınıf', '4. Sınıf', '5. Sınıf', '6. Sınıf', '7. Sınıf', '8. Sınıf', '9. Sınıf', '10. Sınıf',
+                          '11. Sınıf', '12. Sınıf',],
+                        initialSelection: '1. Sınıf',
+                        function: provider.changeClassGrade,
                       );
                     },
                   ),
@@ -52,7 +72,7 @@ class AddExamView extends StatelessWidget {
                     },
                   ),
                 ),
-context.sized.emptySizedHeightBoxLow,
+/*context.sized.emptySizedHeightBoxLow,
                 Text('Dönem Seçiniz'),
                 context.sized.emptySizedHeightBoxLow,
                 SizedBox(
@@ -68,17 +88,21 @@ context.sized.emptySizedHeightBoxLow,
                       );
                     },
                   ),
-                ),
+                ),*/
 
-                Consumer<AcquisitionViewModel>(
-                  builder: (context, provider,_) {
+                context.sized.emptySizedHeightBoxLow,
+
+                Consumer3<AcquisitionViewModel,BranchViewModel, ExamViewModel>(
+                  builder: (context, providerAcquisition, providerBranch, providerEXAM, _) {
                     return ElevatedButton(onPressed: (){
-                      provider.acquisitionList.where((element) {
+                      providerAcquisition.getAcquisitionNameList(providerBranch.branch, providerEXAM.classGrade.split('.').first);
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectAcquisitionView(numberOfExam: providerEXAM.numberOfQuess, acquitionList: providerAcquisition.selectedAcquitions)));
+                      ///soru sayısı kadar liste uzunluğu ve seçimi false olan liste oluşturuyorum sonraki sayfa için.
+                      providerAcquisition.createNumberOfQuessList(int.parse(providerEXAM.numberOfQuess));
 
-                        (element.acquisitionBranch=='Matematik' && element.acquisitionClass=='5') ? print(element.acquisitionName) : print('ok');
-                        return true;
-                      });
-                    }, child: Text('tıkla'));
+                     // print(providerAcquisition.selectedAcquitions);
+                     // print(Provider.of<ReadDocument>(context, listen: false).studentNames);
+                    }, child: Text('Devam Et'));
                   },
                 )
                 // Buraya `Expanded` widget'ını ekleyebilirsiniz.

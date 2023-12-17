@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
-import 'package:sinavanalizi/features/acquisition/acquisition_view.dart';
+import 'package:sinavanalizi/features/acquisition/select_acquisition_view.dart';
 import 'package:sinavanalizi/features/branch/branch_view_model.dart';
 import 'package:sinavanalizi/product/widgets/custom_dropdownmenu.dart';
 

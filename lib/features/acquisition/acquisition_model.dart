@@ -1,8 +1,8 @@
 class Acquisition{
   String acquisitionBranch;
-  String acquisitionClass;
+  String acquisitionGrade;
   String acquisitionName;
 
   Acquisition(
-      this.acquisitionBranch, this.acquisitionClass, this.acquisitionName);
+      this.acquisitionBranch, this.acquisitionGrade, this.acquisitionName);
 }
