@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:kartal/kartal.dart';
+import 'package:provider/provider.dart';
+import 'package:sinavanalizi/features/acquisition/acquisition_view_model.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/widgets/custom_add_widget.dart';
+import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
+import 'package:sinavanalizi/services/read_document.dart';
 
 class AnalysisView extends StatelessWidget {
   const AnalysisView(
@@ -46,6 +51,65 @@ class AnalysisView extends StatelessWidget {
     return Padding(
       padding: context.padding.medium,
       child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Consumer<AcquisitionViewModel>(
+              builder: (context, providerAcq, _) {
+                return Row(
+                children: providerAcq.createExamSelectedAcquitionList.map((e) => Text(e)).toList());
+        }
+            ),
+            Row(
+              children: [
+                Consumer<ReadDocument>(builder: (context, providerRead, _) {
+                  return Row(
+                    children: [
+                      Column(
+                        children:providerRead.studentNumbers.asMap().entries.map((e) => Text('${e.key+1}')).toList()
+                      ),
+                      context.sized.emptySizedWidthBoxLow,
+                      Column(
+                        children:providerRead.studentNumbers.map((e) => Text(e)).toList(),
+                      ),
+                      context.sized.emptySizedWidthBoxLow,
+                      Column(
+                        children:providerRead.studentNames.map((e) => Text(e)).toList(),
+                      ),
+                      context.sized.emptySizedWidthBoxLow,
+                      Column(
+                        children:providerRead.studentSurnames.map((e) => Text(e)).toList(),
+                      ),
+                      context.sized.emptySizedWidthBoxLow,
+                      Expanded(
+                        child: Consumer<AcquisitionViewModel>(builder: (context, providerAcq,_){
+                          List<TextEditingController> _controllerList=List.generate(providerAcq.numberOfQuessList.length, (index) => TextEditingController());
+                          return Column(
+                            children: List.generate(
+                                  providerAcq.createExamSelectedAcquitionList.length,
+                                      (index) => CustomTextFormField(
+                                    labelText: '${index + 1}. Soru',
+                                    controller: _controllerList[index],
+                                  ),
+                                ),
+                            
+                          );
+
+                        }),
+                      )
+                    ],
+                  );
+                }),
+
+              ],
+            )
+          ],),
+        ),
+      ),
+    );
+
+    /*Padding(
+      padding: context.padding.medium,
+      child: Scaffold(
           body: Column(
         children: [
           CustomAddWidget(text: 'Analiz Ekle', onTap: () {}),
@@ -63,7 +127,7 @@ class AnalysisView extends StatelessWidget {
               }),
         ],
       )),
-    );
+    );*/
   }
 }
 /*
