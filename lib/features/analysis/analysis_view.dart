@@ -52,60 +52,59 @@ class AnalysisView extends StatelessWidget {
       padding: context.padding.medium,
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Column(children: [
-            Consumer<AcquisitionViewModel>(
-              builder: (context, providerAcq, _) {
-                return Row(
-                children: providerAcq.createExamSelectedAcquitionList.map((e) => Text(e)).toList());
-        }
-            ),
-            Row(
-              children: [
-                Consumer<ReadDocument>(builder: (context, providerRead, _) {
-                  return Row(
-                    children: [
-                      Column(
-                        children:providerRead.studentNumbers.asMap().entries.map((e) => Text('${e.key+1}')).toList()
-                      ),
-                      context.sized.emptySizedWidthBoxLow,
-                      Column(
-                        children:providerRead.studentNumbers.map((e) => Text(e)).toList(),
-                      ),
-                      context.sized.emptySizedWidthBoxLow,
-                      Column(
-                        children:providerRead.studentNames.map((e) => Text(e)).toList(),
-                      ),
-                      context.sized.emptySizedWidthBoxLow,
-                      Column(
-                        children:providerRead.studentSurnames.map((e) => Text(e)).toList(),
-                      ),
-                      context.sized.emptySizedWidthBoxLow,
-                      Expanded(
-                        child: Consumer<AcquisitionViewModel>(builder: (context, providerAcq,_){
-                          List<TextEditingController> _controllerList=List.generate(providerAcq.numberOfQuessList.length, (index) => TextEditingController());
-                          return Column(
+          child:
+            Consumer<ReadDocument>(builder: (context, providerRead, _) {
+              return Row(
+                children: [
+                  Column(
+                    children:providerRead.studentNumbers.asMap().entries.map((e) => Text('${e.key+1}')).toList()
+                  ),
+                  context.sized.emptySizedWidthBoxLow,
+                  Column(
+                    children:providerRead.studentNumbers.map((e) => Text(e)).toList(),
+                  ),
+                  context.sized.emptySizedWidthBoxLow,
+                  Column(
+                    children:providerRead.studentNames.map((e) => Text(e)).toList(),
+                  ),
+                  context.sized.emptySizedWidthBoxLow,
+                  Column(
+                    children:providerRead.studentSurnames.map((e) => Text(e)).toList(),
+                  ),
+                  context.sized.emptySizedWidthBoxLow,
+                  Expanded(
+                    child: Consumer<AcquisitionViewModel>(builder: (context, providerAcq, _) =>
+                        Column(
+                          children: List.generate(providerAcq.createExamSelectedAcquitionList.length, (i) =>
+                          Column(
+                            children: List.generate(providerRead.studentNumbers.length, (index) => CustomTextFormField(labelText: '${index+1}. soru')),
+                          )),
+                        )
+                    ),
+                  ),
+                  /*Expanded(
+                    child: Consumer<AcquisitionViewModel>(builder: (context, providerAcq,_){
+                      List<TextEditingController> _controllerList=List.generate(providerAcq.numberOfQuessList.length, (index) => TextEditingController());
+                      return Column(
                             children: List.generate(
-                                  providerAcq.createExamSelectedAcquitionList.length,
+                                  providerAcq.numberOfQuessList.length,
                                       (index) => CustomTextFormField(
                                     labelText: '${index + 1}. Soru',
                                     controller: _controllerList[index],
                                   ),
                                 ),
-                            
+
                           );
 
-                        }),
-                      )
-                    ],
-                  );
-                }),
 
-              ],
-            )
-          ],),
-        ),
-      ),
-    );
+
+                    }),
+                  )*/
+                ],
+              );
+            })
+    )
+    ));
 
     /*Padding(
       padding: context.padding.medium,
