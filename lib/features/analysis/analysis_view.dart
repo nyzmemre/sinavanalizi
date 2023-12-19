@@ -54,53 +54,62 @@ class AnalysisView extends StatelessWidget {
         body: SingleChildScrollView(
           child:
             Consumer<ReadDocument>(builder: (context, providerRead, _) {
-              return Row(
-                children: [
-                  Column(
-                    children:providerRead.studentNumbers.asMap().entries.map((e) => Text('${e.key+1}')).toList()
-                  ),
-                  context.sized.emptySizedWidthBoxLow,
-                  Column(
-                    children:providerRead.studentNumbers.map((e) => Text(e)).toList(),
-                  ),
-                  context.sized.emptySizedWidthBoxLow,
-                  Column(
-                    children:providerRead.studentNames.map((e) => Text(e)).toList(),
-                  ),
-                  context.sized.emptySizedWidthBoxLow,
-                  Column(
-                    children:providerRead.studentSurnames.map((e) => Text(e)).toList(),
-                  ),
-                  context.sized.emptySizedWidthBoxLow,
-                  Expanded(
-                    child: Consumer<AcquisitionViewModel>(builder: (context, providerAcq, _) =>
-                        Column(
-                          children: List.generate(providerAcq.createExamSelectedAcquitionList.length, (i) =>
-                          Column(
+              return Consumer<AcquisitionViewModel>(
+                builder: (context, providerAcq, _) {
+                  return Row(
+                    children: [
+                      Column(
+                        children:providerRead.studentNumbers.asMap().entries.map((e) => Text('${e.key+1}')).toList()
+                      ),
+                      context.sized.emptySizedWidthBoxLow,
+                      Column(
+                        children:providerRead.studentNumbers.map((e) => Text(e)).toList(),
+                      ),
+                      context.sized.emptySizedWidthBoxLow,
+                      Column(
+                        children:providerRead.studentNames.map((e) => Text(e)).toList(),
+                      ),
+                      context.sized.emptySizedWidthBoxLow,
+                      Column(
+                        children:providerRead.studentSurnames.map((e) => Text(e)).toList(),
+                      ),
+                      context.sized.emptySizedWidthBoxLow,
+
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: List.generate(providerRead.studentNumbers.length, (index) => CustomTextFormField(labelText: '${index+1}. soru')),
-                          )),
-                        )
-                    ),
-                  ),
-                  /*Expanded(
-                    child: Consumer<AcquisitionViewModel>(builder: (context, providerAcq,_){
-                      List<TextEditingController> _controllerList=List.generate(providerAcq.numberOfQuessList.length, (index) => TextEditingController());
-                      return Column(
-                            children: List.generate(
-                                  providerAcq.numberOfQuessList.length,
-                                      (index) => CustomTextFormField(
-                                    labelText: '${index + 1}. Soru',
-                                    controller: _controllerList[index],
-                                  ),
-                                ),
+                          ),
+                        ),
 
-                          );
+                      Expanded(
+                        child: Column(
+                          children: List.generate(providerRead.studentNumbers.length, (index) {
+                            return Text( 'Puan');
+                          }),
+                        ),
+                      ),
+                      /*Expanded(
+                        child: Consumer<AcquisitionViewModel>(builder: (context, providerAcq,_){
+                          List<TextEditingController> _controllerList=List.generate(providerAcq.numberOfQuessList.length, (index) => TextEditingController());
+                          return Column(
+                                children: List.generate(
+                                      providerAcq.numberOfQuessList.length,
+                                          (index) => CustomTextFormField(
+                                        labelText: '${index + 1}. Soru',
+                                        controller: _controllerList[index],
+                                      ),
+                                    ),
+
+                              );
 
 
 
-                    }),
-                  )*/
-                ],
+                        }),
+                      )*/
+                    ],
+                  );
+                },
               );
             })
     )
