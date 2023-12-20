@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:http/http.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 import 'package:sinavanalizi/features/acquisition/acquisition_view_model.dart';
@@ -9,8 +10,8 @@ import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 import 'package:sinavanalizi/services/read_document.dart';
 
 class AnalysisView extends StatelessWidget {
-  const AnalysisView(
-      {Key? key,
+  const AnalysisView({
+    Key? key,
     // required this.city,
     // required this.district,
     // required this.schoolName,
@@ -27,93 +28,109 @@ class AnalysisView extends StatelessWidget {
     // required this.studentNum,
     // required this.studentName,
     // required this.studentSurname
-      })
-      : super(key: key);
- // final String city;
- // final String district;
- // final String schoolName;
- // final String className;
- // final String branch;
- // final String teacherName;
- // final String teacherSurname;
- // final String examNum;
- // final String periodNum;
- // final int numberOfQuess;
- // final List<int> quessPoint;
- // final List<String> acquisition;
- // final List<int> acquisitionPoint;
- // final List<String> studentNum;
- // final List<String> studentName;
- // final List<String> studentSurname;
+  }) : super(key: key);
+
+  // final String city;
+  // final String district;
+  // final String schoolName;
+  // final String className;
+  // final String branch;
+  // final String teacherName;
+  // final String teacherSurname;
+  // final String examNum;
+  // final String periodNum;
+  // final int numberOfQuess;
+  // final List<int> quessPoint;
+  // final List<String> acquisition;
+  // final List<int> acquisitionPoint;
+  // final List<String> studentNum;
+  // final List<String> studentName;
+  // final List<String> studentSurname;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: context.padding.medium,
       child: Scaffold(
-        body: SingleChildScrollView(
-          child:
-            Consumer<ReadDocument>(builder: (context, providerRead, _) {
-              return Consumer<AcquisitionViewModel>(
-                builder: (context, providerAcq, _) {
-                  return Row(
-                    children: [
-                      Column(
-                        children:providerRead.studentNumbers.asMap().entries.map((e) => Text('${e.key+1}')).toList()
-                      ),
-                      context.sized.emptySizedWidthBoxLow,
-                      Column(
-                        children:providerRead.studentNumbers.map((e) => Text(e)).toList(),
-                      ),
-                      context.sized.emptySizedWidthBoxLow,
-                      Column(
-                        children:providerRead.studentNames.map((e) => Text(e)).toList(),
-                      ),
-                      context.sized.emptySizedWidthBoxLow,
-                      Column(
-                        children:providerRead.studentSurnames.map((e) => Text(e)).toList(),
-                      ),
-                      context.sized.emptySizedWidthBoxLow,
-
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(providerRead.studentNumbers.length, (index) => CustomTextFormField(labelText: '${index+1}. soru')),
-                          ),
-                        ),
-
-                      Expanded(
-                        child: Column(
-                          children: List.generate(providerRead.studentNumbers.length, (index) {
-                            return Text( 'Puan');
-                          }),
-                        ),
-                      ),
-                      /*Expanded(
-                        child: Consumer<AcquisitionViewModel>(builder: (context, providerAcq,_){
-                          List<TextEditingController> _controllerList=List.generate(providerAcq.numberOfQuessList.length, (index) => TextEditingController());
-                          return Column(
-                                children: List.generate(
-                                      providerAcq.numberOfQuessList.length,
-                                          (index) => CustomTextFormField(
-                                        labelText: '${index + 1}. Soru',
-                                        controller: _controllerList[index],
-                                      ),
-                                    ),
-
-                              );
-
-
-
-                        }),
-                      )*/
-                    ],
-                  );
-                },
+        body: Center(
+          child: Consumer2<ReadDocument, AcquisitionViewModel>(
+            builder: (context, readProvider, acqProvider, _) {
+              List<TextEditingController> _controllerList = List.generate(
+                acqProvider.createExamSelectedAcquitionList.length*readProvider.studentNumbers.length,
+                    (index) => TextEditingController(),
               );
-            })
-    )
-    ));
+
+              return SingleChildScrollView(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Column(
+                    children: [
+                      // Tablo Başlıkları
+                      Row(
+                        children: [
+                          SizedBox(
+                              width: 50,
+                              child: Text('No')),
+                          context.sized.emptySizedWidthBoxLow,
+                          SizedBox(
+                              width: 100,
+                              child: Text('Ad')),
+                          context.sized.emptySizedWidthBoxLow,
+                          SizedBox(
+                              width: 100,
+                              child: Text('Soyad')),
+                          context.sized.emptySizedWidthBoxLow,
+                          for (var i = 0;
+                          i < acqProvider.createExamSelectedAcquitionList.length;
+                          i++)
+                            SizedBox(
+                                width: 70,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 5, bottom: 2),
+                                  child: Text('${i + 1}. Soru'),
+                                )),
+                        ],
+                      ),
+                      // Öğrenci Bilgileri
+                      for (var i = 0; i < readProvider.studentNumbers.length; i++)
+                        Row(
+                          children: [
+                            SizedBox(
+                                width: 50,
+                                child: Text(readProvider.studentNumbers[i])),
+                            context.sized.emptySizedWidthBoxLow,
+                            SizedBox(
+                                width: 100,
+                                child: Text(readProvider.studentNames[i])),
+                            context.sized.emptySizedWidthBoxLow,
+                            SizedBox(
+                                width: 100,
+                                child: Text(readProvider.studentSurnames[i])),
+                            context.sized.emptySizedWidthBoxLow,
+                            for (var j = 0;
+                            j < acqProvider.createExamSelectedAcquitionList.length;
+                            j++)
+                              SizedBox(
+                                width: 70,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 5, bottom: 5),
+                                  child: CustomTextFormField(
+                                    labelText: '',
+                                    controller: _controllerList[j],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
 
     /*Padding(
       padding: context.padding.medium,

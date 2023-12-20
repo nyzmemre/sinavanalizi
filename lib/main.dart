@@ -15,6 +15,7 @@ import 'package:sinavanalizi/features/branch/branch_view_model.dart';
 import 'package:sinavanalizi/firebase_options.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/utilty/constants/text_constant.dart';
+import 'package:sinavanalizi/product/widgets/custom_scroll_behavior.dart';
 import 'package:sinavanalizi/services/read_document.dart';
 
 import 'features/exam/add_exam_view.dart';
@@ -50,6 +51,7 @@ class SinavAnalizi extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: TextConstant.appName,
+      scrollBehavior: CustomScrollBehavior(),
       ///aidat takipteki tarih seçin butonu için
       ///oradaki tarih ekranı Türkçe oluyor
 /*localizationsDelegates: const [
