@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:kartal/kartal.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 import 'package:provider/provider.dart';
 import 'package:sinavanalizi/features/acquisition/acquisition_view_model.dart';
+import 'package:sinavanalizi/features/analysis/analysis_view_model.dart';
 import 'package:sinavanalizi/product/utilty/constants/color_constant.dart';
 import 'package:sinavanalizi/product/widgets/custom_add_widget.dart';
 import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
@@ -49,17 +53,18 @@ class AnalysisView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: context.padding.medium,
       child: Scaffold(
         body: Center(
-          child: Consumer2<ReadDocument, AcquisitionViewModel>(
-            builder: (context, readProvider, acqProvider, _) {
+          child: Consumer3<ReadDocument, AcquisitionViewModel, AnalysisViewModel>(
+            builder: (context, readProvider, acqProvider, analysisProvider, _) {
               List<TextEditingController> _controllerList = List.generate(
                 acqProvider.createExamSelectedAcquitionList.length*readProvider.studentNumbers.length,
                     (index) => TextEditingController(),
               );
-
+              List<int> totalPoints=[];
               return SingleChildScrollView(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -89,6 +94,9 @@ class AnalysisView extends StatelessWidget {
                                   padding: EdgeInsets.only(right: 5, bottom: 2),
                                   child: Text('${i + 1}. Soru'),
                                 )),
+                          SizedBox(
+                              width: 100,
+                              child: Text('Puan'))
                         ],
                       ),
                       // Öğrenci Bilgileri
@@ -115,13 +123,43 @@ class AnalysisView extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 5, bottom: 5),
                                   child: CustomTextFormField(
+                                    onChanged: (value) {
+                                      final intVal = int.tryParse(value.replaceAll(',', '.'));
+                                      if (intVal != null && (intVal > 100 || intVal < 0)) {
+                                        // Değer 0 ile 100 arasında değilse uygun bir geribildirimde bulunabilirsiniz.
+                                        // Örneğin, bir snackbar gösterme, bir ikon değiştirme, bir renk değiştirme vb.
+                                        MotionToast.error(
+                                            position: MotionToastPosition.center,
+                                            description: Text('Puan Değerini Yanlış Aralıkta Girdiniz!')).show(context);
+                                      } else {
+                                        analysisProvider.addPoint(readProvider.studentNumbers.length, int.parse(value), i);
+                                      }
+                                    },
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                                      TextInputFormatter.withFunction(
+                                            (oldValue, newValue) => newValue.copyWith(
+                                          text: newValue.text.replaceAll('.', ','),
+                                        ),
+                                      ),
+
+                                    ],
+                                    keyboardType: TextInputType.number,
+
                                     labelText: '',
-                                    controller: _controllerList[j],
+                                    controller: _controllerList[
+                                    i * acqProvider.createExamSelectedAcquitionList.length +
+                                        j],
                                   ),
                                 ),
                               ),
+                            context.sized.emptySizedWidthBoxLow,
+                            SizedBox(
+                                width: 100,
+                                child: Text(analysisProvider.rowTotalPoint.first.toString() ?? '0'))
                           ],
                         ),
+
                     ],
                   ),
                 ),

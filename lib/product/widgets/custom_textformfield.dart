@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sinavanalizi/product/utilty/validators/textform_validators.dart';
 
 import '../utilty/constants/color_constant.dart';
@@ -13,7 +14,12 @@ class CustomTextFormField extends StatelessWidget {
       this.controller,
       this.isVisible,
       this.enabled,
-      this.passwordMatch});
+      this.passwordMatch,
+      this.onChanged,
+      this.inputFormatters,
+        this.onEditingComplete,
+
+      });
 
   // ignore: strict_raw_type
   final String labelText;
@@ -22,12 +28,18 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool? enabled;
   final String? passwordMatch;
+  final  ValueChanged<String>? onChanged;
+  final List<TextInputFormatter>? inputFormatters;
+  final Function()? onEditingComplete;
 
   TextEditingController? controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onEditingComplete: onEditingComplete,
+      onChanged: onChanged,
+      inputFormatters: inputFormatters,
       obscureText: isVisible ?? false,
       controller: controller,
       enabled: enabled ?? true,
