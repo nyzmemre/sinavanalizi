@@ -123,6 +123,7 @@ class AnalysisView extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 5, bottom: 5),
                                   child: CustomTextFormField(
+
                                     onChanged: (value) {
                                       final intVal = int.tryParse(value.replaceAll(',', '.'));
                                       if (intVal != null && (intVal > 100 || intVal < 0)) {
@@ -132,7 +133,10 @@ class AnalysisView extends StatelessWidget {
                                             position: MotionToastPosition.center,
                                             description: Text('Puan Değerini Yanlış Aralıkta Girdiniz!')).show(context);
                                       } else {
-                                        analysisProvider.addPoint(readProvider.studentNumbers.length, int.parse(value), i);
+                                        for(var k=0; k<acqProvider.createExamSelectedAcquitionList.length;k++){
+                                          if()
+                                        }
+
                                       }
                                     },
                                     inputFormatters: <TextInputFormatter>[
@@ -154,9 +158,11 @@ class AnalysisView extends StatelessWidget {
                                 ),
                               ),
                             context.sized.emptySizedWidthBoxLow,
-                            SizedBox(
+                            (analysisProvider.rowTotalPoint.isNotEmpty) ? SizedBox(
                                 width: 100,
-                                child: Text(analysisProvider.rowTotalPoint.first.toString() ?? '0'))
+                                child: Text(analysisProvider.rowTotalPoint.first.toString())) : SizedBox(
+                              width: 100, child: Text('0'),
+                            )
                           ],
                         ),
 
