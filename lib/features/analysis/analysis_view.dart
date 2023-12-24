@@ -14,7 +14,7 @@ import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 import 'package:sinavanalizi/services/read_document.dart';
 
 class AnalysisView extends StatelessWidget {
-  const AnalysisView({
+  AnalysisView({
     Key? key,
     // required this.city,
     // required this.district,
@@ -50,127 +50,158 @@ class AnalysisView extends StatelessWidget {
   // final List<String> studentNum;
   // final List<String> studentName;
   // final List<String> studentSurname;
-
+  GlobalKey _key=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
 
     return Padding(
       padding: context.padding.medium,
       child: Scaffold(
-        body: Center(
-          child: Consumer3<ReadDocument, AcquisitionViewModel, AnalysisViewModel>(
-            builder: (context, readProvider, acqProvider, analysisProvider, _) {
-              List<TextEditingController> _controllerList = List.generate(
-                acqProvider.createExamSelectedAcquitionList.length*readProvider.studentNumbers.length,
-                    (index) => TextEditingController(),
-              );
-              List<int> totalPoints=[];
-              return SingleChildScrollView(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Column(
-                    children: [
-                      // Tablo Başlıkları
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: 50,
-                              child: Text('No')),
-                          context.sized.emptySizedWidthBoxLow,
-                          SizedBox(
-                              width: 100,
-                              child: Text('Ad')),
-                          context.sized.emptySizedWidthBoxLow,
-                          SizedBox(
-                              width: 100,
-                              child: Text('Soyad')),
-                          context.sized.emptySizedWidthBoxLow,
-                          for (var i = 0;
-                          i < acqProvider.createExamSelectedAcquitionList.length;
-                          i++)
-                            SizedBox(
-                                width: 70,
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 5, bottom: 2),
-                                  child: Text('${i + 1}. Soru'),
-                                )),
-                          SizedBox(
-                              width: 100,
-                              child: Text('Puan'))
-                        ],
-                      ),
-                      // Öğrenci Bilgileri
-                      for (var i = 0; i < readProvider.studentNumbers.length; i++)
+        body: Form(
+          key: _key,
+          child: Center(
+            child: Consumer3<ReadDocument, AcquisitionViewModel, AnalysisViewModel>(
+              builder: (context, readProvider, acqProvider, analysisProvider, _) {
+                List<TextEditingController> _controllerList = List.generate(
+                  acqProvider.createExamSelectedAcquitionList.length*readProvider.studentNumbers.length,
+                      (index) => TextEditingController(),
+                );
+
+                List<TextEditingController> _resultController=List.generate(acqProvider.createExamSelectedAcquitionList.length*readProvider.studentNumbers.length, (index) => TextEditingController());
+
+                List<int> totalPoints=[];
+                return SingleChildScrollView(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Column(
+                      children: [
+                        // Tablo Başlıkları
                         Row(
                           children: [
                             SizedBox(
                                 width: 50,
-                                child: Text(readProvider.studentNumbers[i])),
+                                child: Text('No')),
                             context.sized.emptySizedWidthBoxLow,
                             SizedBox(
                                 width: 100,
-                                child: Text(readProvider.studentNames[i])),
+                                child: Text('Ad')),
                             context.sized.emptySizedWidthBoxLow,
                             SizedBox(
                                 width: 100,
-                                child: Text(readProvider.studentSurnames[i])),
+                                child: Text('Soyad')),
                             context.sized.emptySizedWidthBoxLow,
-                            for (var j = 0;
-                            j < acqProvider.createExamSelectedAcquitionList.length;
-                            j++)
+                            for (var i = 0;
+                            i < acqProvider.createExamSelectedAcquitionList.length;
+                            i++)
                               SizedBox(
-                                width: 70,
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 5, bottom: 5),
-                                  child: CustomTextFormField(
-
-                                    onChanged: (value) {
-                                      final intVal = int.tryParse(value.replaceAll(',', '.'));
-                                      if (intVal != null && (intVal > 100 || intVal < 0)) {
-                                        // Değer 0 ile 100 arasında değilse uygun bir geribildirimde bulunabilirsiniz.
-                                        // Örneğin, bir snackbar gösterme, bir ikon değiştirme, bir renk değiştirme vb.
-                                        MotionToast.error(
-                                            position: MotionToastPosition.center,
-                                            description: Text('Puan Değerini Yanlış Aralıkta Girdiniz!')).show(context);
-                                      } else {
-                                        for(var k=0; k<acqProvider.createExamSelectedAcquitionList.length;k++){
-                                          if()
-                                        }
-
-                                      }
-                                    },
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
-                                      TextInputFormatter.withFunction(
-                                            (oldValue, newValue) => newValue.copyWith(
-                                          text: newValue.text.replaceAll('.', ','),
-                                        ),
-                                      ),
-
-                                    ],
-                                    keyboardType: TextInputType.number,
-
-                                    labelText: '',
-                                    controller: _controllerList[
-                                    i * acqProvider.createExamSelectedAcquitionList.length +
-                                        j],
-                                  ),
-                                ),
-                              ),
-                            context.sized.emptySizedWidthBoxLow,
-                            (analysisProvider.rowTotalPoint.isNotEmpty) ? SizedBox(
+                                  width: 70,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 5, bottom: 2),
+                                    child: Text('${i + 1}. Soru'),
+                                  )),
+                            SizedBox(
                                 width: 100,
-                                child: Text(analysisProvider.rowTotalPoint.first.toString())) : SizedBox(
-                              width: 100, child: Text('0'),
-                            )
+                                child: Text('Puan'))
                           ],
                         ),
+                        // Öğrenci Bilgileri
+                        for (var i = 0; i < readProvider.studentNumbers.length; i++)
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: 50,
+                                  child: Text(readProvider.studentNumbers[i])),
+                              context.sized.emptySizedWidthBoxLow,
+                              SizedBox(
+                                  width: 100,
+                                  child: Text(readProvider.studentNames[i])),
+                              context.sized.emptySizedWidthBoxLow,
+                              SizedBox(
+                                  width: 100,
+                                  child: Text(readProvider.studentSurnames[i])),
+                              context.sized.emptySizedWidthBoxLow,
+                              for (var j = 0;
+                              j < acqProvider.createExamSelectedAcquitionList.length;
+                              j++)
+                                SizedBox(
+                                  width: 70,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 5, bottom: 5),
+                                    child: CustomTextFormField(
+                                      onEditingComplete: (){
+                                        analysisProvider.updateResult()
+/*
+print('düüüüüt');
 
-                    ],
+      int nowIndex=i*acqProvider.createExamSelectedAcquitionList.length+j;
+      if(analysisProvider.rowTotalPoint[nowIndex]==null) {
+          print('11111');
+                                              analysisProvider.rowTotalPoint.add(
+                                                  int.parse(
+                                                      _controllerList[j].text));
+                                            } else {
+          print('222222');
+                                              analysisProvider.rowTotalPoint
+                                                  .insert(
+                                                      nowIndex,
+                                                      analysisProvider
+                                                                  .rowTotalPoint[
+                                                              nowIndex] +=
+                                                          int.parse(
+                                                              _controllerList[
+                                                                      nowIndex]
+                                                                  .text));
+                                            }
+                                            print(analysisProvider.rowTotalPoint);
+*/
+
+
+
+
+                                      },
+
+                                      onChanged: (value) {
+                                        final intVal = int.tryParse(value.replaceAll(',', '.'));
+                                        if (intVal != null && (intVal > 100 || intVal < 0)) {
+                                          // Değer 0 ile 100 arasında değilse uygun bir geribildirimde bulunabilirsiniz.
+                                          // Örneğin, bir snackbar gösterme, bir ikon değiştirme, bir renk değiştirme vb.
+                                          MotionToast.error(
+                                              position: MotionToastPosition.center,
+                                              description: Text('Puan Değerini Yanlış Aralıkta Girdiniz!')).show(context);
+                                        }
+                                        print(analysisProvider.rowTotalPoint);
+
+                                      },
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                                        TextInputFormatter.withFunction(
+                                              (oldValue, newValue) => newValue.copyWith(
+                                            text: newValue.text.replaceAll('.', ','),
+                                          ),
+                                        ),
+
+                                      ],
+                                      keyboardType: TextInputType.number,
+
+                                      labelText: '',
+                                      controller: _controllerList[
+                                      i * acqProvider.createExamSelectedAcquitionList.length +
+                                          j],
+                                    ),
+                                  ),
+                                ),
+                              context.sized.emptySizedWidthBoxLow,
+                              
+                           
+                            ],
+                          ),
+
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
