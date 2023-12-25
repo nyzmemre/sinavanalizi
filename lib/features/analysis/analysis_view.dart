@@ -129,7 +129,7 @@ class AnalysisView extends StatelessWidget {
                                     padding: EdgeInsets.only(right: 5, bottom: 5),
                                     child: CustomTextFormField(
                                       onEditingComplete: (){
-                                        analysisProvider.updateResult()
+
 /*
 print('düüüüüt');
 
@@ -169,7 +169,8 @@ print('düüüüüt');
                                               position: MotionToastPosition.center,
                                               description: Text('Puan Değerini Yanlış Aralıkta Girdiniz!')).show(context);
                                         }
-                                        print(analysisProvider.rowTotalPoint);
+                                        
+                                         print(analysisProvider.rowTotalPoint);
 
                                       },
                                       inputFormatters: <TextInputFormatter>[
@@ -191,6 +192,9 @@ print('düüüüüt');
                                   ),
                                 ),
                               context.sized.emptySizedWidthBoxLow,
+                              SizedBox(
+                                  width: 100,
+                                  child: Text(analysisProvider.rakam.toString()))
                               
                            
                             ],
