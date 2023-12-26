@@ -13,7 +13,7 @@ import 'package:sinavanalizi/product/widgets/custom_add_widget.dart';
 import 'package:sinavanalizi/product/widgets/custom_textformfield.dart';
 import 'package:sinavanalizi/services/read_document.dart';
 
-class AnalysisView extends StatelessWidget {
+class AnalysisView extends StatefulWidget {
   AnalysisView({
     Key? key,
     // required this.city,
@@ -34,23 +34,69 @@ class AnalysisView extends StatelessWidget {
     // required this.studentSurname
   }) : super(key: key);
 
+  @override
+  State<AnalysisView> createState() => _AnalysisViewState();
+}
+
+class _AnalysisViewState extends State<AnalysisView> {
   // final String city;
-  // final String district;
-  // final String schoolName;
-  // final String className;
-  // final String branch;
-  // final String teacherName;
-  // final String teacherSurname;
-  // final String examNum;
-  // final String periodNum;
-  // final int numberOfQuess;
-  // final List<int> quessPoint;
-  // final List<String> acquisition;
-  // final List<int> acquisitionPoint;
-  // final List<String> studentNum;
-  // final List<String> studentName;
-  // final List<String> studentSurname;
   GlobalKey _key=GlobalKey<FormState>();
+
+  List<TextEditingController> _controllerList = [];
+  List<FocusNode> _focusNodeList=[];
+  List<int> _totalPoints = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Provider ile ilişkilendirilmiş olan veriyi alın
+    var acqProvider = Provider.of<AcquisitionViewModel>(context, listen: false);
+    var readProvider = Provider.of<ReadDocument>(context, listen: false);
+
+    _totalPoints = List.generate(
+        readProvider.studentNumbers.length, (index) => 0);
+
+
+
+    _focusNodeList = List.generate(
+        acqProvider.createExamSelectedAcquitionList.length *
+            readProvider.studentNumbers.length, (index) => FocusNode());
+
+    // _controllerList'i oluşturun
+    _controllerList = List.generate(
+      acqProvider.createExamSelectedAcquitionList.length *
+          readProvider.studentNumbers.length,
+          (index) => TextEditingController(),
+    );
+
+    // Burada _controllerList'i kullanabilirsiniz
+
+
+    _focusNodeList.asMap().forEach((index, focusNode) {
+      focusNode.addListener(() {
+
+            print('$index: ${_controllerList[index].text}');
+
+            for (var i = 0; i < readProvider.studentNumbers.length; i++) {
+              _totalPoints.add(0);
+              for (var j = 0; j < acqProvider.createExamSelectedAcquitionList.length; j++) {
+                _focusNodeList.add(FocusNode());
+              }}
+
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // _controllerList ve _focusNodeList içindeki her bir elemanı temizle
+    _controllerList.forEach((controller) => controller.dispose());
+    _focusNodeList.forEach((focusNode) => focusNode.dispose());
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -62,14 +108,13 @@ class AnalysisView extends StatelessWidget {
           child: Center(
             child: Consumer3<ReadDocument, AcquisitionViewModel, AnalysisViewModel>(
               builder: (context, readProvider, acqProvider, analysisProvider, _) {
-                List<TextEditingController> _controllerList = List.generate(
+                /*List<TextEditingController> _controllerList = List.generate(
                   acqProvider.createExamSelectedAcquitionList.length*readProvider.studentNumbers.length,
                       (index) => TextEditingController(),
-                );
+                );*/
 
-                List<TextEditingController> _resultController=List.generate(acqProvider.createExamSelectedAcquitionList.length*readProvider.studentNumbers.length, (index) => TextEditingController());
-
-                List<int> totalPoints=[];
+               // List<TextEditingController> _resultController=List.generate(acqProvider.createExamSelectedAcquitionList.length*readProvider.studentNumbers.length, (index) => TextEditingController());
+               // List<FocusNode> _focusNodeList=List.generate(acqProvider.createExamSelectedAcquitionList.length*readProvider.studentNumbers.length, (index) => FocusNode());
                 return SingleChildScrollView(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -127,36 +172,55 @@ class AnalysisView extends StatelessWidget {
                                   width: 70,
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 5, bottom: 5),
-                                    child: CustomTextFormField(
-                                      onEditingComplete: (){
+                                    child: /*TextField(
 
-/*
-print('düüüüüt');
 
-      int nowIndex=i*acqProvider.createExamSelectedAcquitionList.length+j;
-      if(analysisProvider.rowTotalPoint[nowIndex]==null) {
-          print('11111');
-                                              analysisProvider.rowTotalPoint.add(
-                                                  int.parse(
-                                                      _controllerList[j].text));
-                                            } else {
-          print('222222');
-                                              analysisProvider.rowTotalPoint
-                                                  .insert(
-                                                      nowIndex,
-                                                      analysisProvider
-                                                                  .rowTotalPoint[
-                                                              nowIndex] +=
-                                                          int.parse(
-                                                              _controllerList[
-                                                                      nowIndex]
-                                                                  .text));
-                                            }
-                                            print(analysisProvider.rowTotalPoint);
+                                      onChanged: (value) {
+                                        final intVal = int.tryParse(value.replaceAll(',', '.'));
+                                        if (intVal != null && (intVal > 100 || intVal < 0)) {
+                                          // Değer 0 ile 100 arasında değilse uygun bir geribildirimde bulunabilirsiniz.
+                                          // Örneğin, bir snackbar gösterme, bir ikon değiştirme, bir renk değiştirme vb.
+                                          MotionToast.error(
+                                              position: MotionToastPosition.center,
+                                              description: Text('Puan Değerini Yanlış Aralıkta Girdiniz!')).show(context);
+                                        }
+
+
+
+                                      },
+
+                                      onSubmitted: (String value){
+
+                                        analysisProvider.counter(int.parse(value));
+                                        print(analysisProvider.a);
+
+
+                                      },
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                                        TextInputFormatter.withFunction(
+                                              (oldValue, newValue) => newValue.copyWith(
+                                            text: newValue.text.replaceAll('.', ','),
+                                          ),
+                                        ),
+
+                                      ],
+
+                                      keyboardType: TextInputType.number,
+                                      controller: _controllerList[
+                                      i * acqProvider.createExamSelectedAcquitionList.length +
+                                          j],
+                                    ),
 */
 
+                                    CustomTextFormField(
+                                      focusNode: _focusNodeList[i*acqProvider.createExamSelectedAcquitionList.length+j],
+                                      onFieldSubmitted: (String value) {
+                                        // Bu kısım, Enter tuşuna basıldığında çalışacaktır
+                                        analysisProvider.counter(int.parse(value));
+                                        print(analysisProvider.a);
 
-
+                                        // Toplam puanları güncelle
 
                                       },
 
@@ -169,10 +233,17 @@ print('düüüüüt');
                                               position: MotionToastPosition.center,
                                               description: Text('Puan Değerini Yanlış Aralıkta Girdiniz!')).show(context);
                                         }
-                                        
-                                         print(analysisProvider.rowTotalPoint);
 
-                                      },
+                                        int total = 0;
+                                        for (var k = 0; k < acqProvider.createExamSelectedAcquitionList.length; k++) {
+                                          total += int.parse(_controllerList[i * acqProvider.createExamSelectedAcquitionList.length + k].text);
+                                        }
+                                        _totalPoints[i] = total;
+
+                                        // UI'yi güncelle
+                                        setState(() {});
+
+                                       },
                                       inputFormatters: <TextInputFormatter>[
                                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
                                         TextInputFormatter.withFunction(
@@ -194,9 +265,10 @@ print('düüüüüt');
                               context.sized.emptySizedWidthBoxLow,
                               SizedBox(
                                   width: 100,
-                                  child: Text(analysisProvider.rakam.toString()))
-                              
-                           
+                                child: Text(_totalPoints[i].toString()),
+                              )
+
+
                             ],
                           ),
 
@@ -211,54 +283,6 @@ print('düüüüüt');
       ),
     );
 
-    /*Padding(
-      padding: context.padding.medium,
-      child: Scaffold(
-          body: Column(
-        children: [
-          CustomAddWidget(text: 'Analiz Ekle', onTap: () {}),
-          ListView.builder(
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              itemCount: 3,
-              itemBuilder: (context, int index) {
-                return InkWell(
-                  onTap: () {},
-                  child: ListTile(
-                    title: Text('7/A Türkçe'),
-                  ),
-                );
-              }),
-        ],
-      )),
-    );*/
+
   }
 }
-/*
-@override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: context.padding.medium,
-      child: Scaffold(
-        body: Column(
-          children: [
-            CustomAddWidget(text: 'Analiz Ekle', onTap: (){}),
-            ListView.builder(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                itemCount: 3,
-                itemBuilder: (context, int index){
-              return InkWell(
-                onTap: (){},
-                child: ListTile(
-                  title: Text('7/A Türkçe'),
-                ),
-              );
-            }),
-          ],
-        )
-      ),
-    );
-  }
-}
-*/

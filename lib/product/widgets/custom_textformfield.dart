@@ -18,6 +18,8 @@ class CustomTextFormField extends StatelessWidget {
       this.onChanged,
       this.inputFormatters,
         this.onEditingComplete,
+        this.onFieldSubmitted,
+        this.focusNode,
 
       });
 
@@ -31,12 +33,16 @@ class CustomTextFormField extends StatelessWidget {
   final  ValueChanged<String>? onChanged;
   final List<TextInputFormatter>? inputFormatters;
   final Function()? onEditingComplete;
+  final Function(String)? onFieldSubmitted;
+  final FocusNode? focusNode;
 
   TextEditingController? controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: onFieldSubmitted,
+      focusNode: focusNode,
       onEditingComplete: onEditingComplete,
       onChanged: onChanged,
       inputFormatters: inputFormatters,

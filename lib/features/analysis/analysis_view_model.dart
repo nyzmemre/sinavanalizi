@@ -2,11 +2,24 @@ import 'package:flutter/material.dart';
 
 class AnalysisViewModel extends ChangeNotifier {
   List<int> _rowTotalPoint=[];
+  int a = 0;
+
+  void counter(int controllerCount){
+    print(controllerCount);
+    a+=controllerCount;
+    notifyListeners();
+  }
+
+
+  set rowTotalPointSet(List<int> value) {
+    _rowTotalPoint = value;
+  }
+
   int _rakam=0;
 
-  void updateResult(){
+  void updateResult(int index, int totalPoint){
 
-    _rakam+=1;
+    _rowTotalPoint.insert(index, totalPoint);
     notifyListeners();
   }
 
