@@ -38,7 +38,7 @@ class ClassroomView extends StatelessWidget {
                     context.sized.emptySizedHeightBoxLow,
                     if (provider.studentNumbers.isNotEmpty)
                       Text(
-                        'Bilgiler doğruysa alttaki KAYDET butonuna tıklayınız.',
+                        'Bilgiler doğruysa en alttaki Devam Et butonuna tıklayınız.',
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
