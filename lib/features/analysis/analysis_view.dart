@@ -21,6 +21,7 @@ class _AnalysisViewState extends State<AnalysisView> {
   List<TextEditingController> _controllerList = [];
   List<FocusNode> _focusNodeList = [];
   List<int> _totalPoints = [];
+  List<int> _acqPoints=[];
 
   @override
   void initState() {
@@ -43,6 +44,8 @@ class _AnalysisViewState extends State<AnalysisView> {
           (index) => TextEditingController(),
     );
 
+    _acqPoints=List.generate(acqProvider.createExamSelectedAcquitionList.length, (index) => 999);
+
     _focusNodeList.asMap().forEach((index, focusNode) {
       focusNode.addListener(() {
         for (var i = 0; i < readProvider.studentNumbers.length; i++) {
@@ -50,17 +53,26 @@ class _AnalysisViewState extends State<AnalysisView> {
           for (var j = 0; j < acqProvider.createExamSelectedAcquitionList.length; j++) {
             int total = 0;
             String val = '';
+
             for (var k = 0; k < acqProvider.createExamSelectedAcquitionList.length; k++) {
               val = _controllerList[i * acqProvider.createExamSelectedAcquitionList.length + k].text;
               int score = int.tryParse(val) ?? 0;
               total += score;
+           //   _acqPoints.insert(k, score);
+
             }
             _totalPoints.insert(i, total);
+
+print('i * acqProvider.createExamSelectedAcquitionList.length + j');
+print(i * acqProvider.createExamSelectedAcquitionList.length + acqProvider.createExamSelectedAcquitionList.length*j);
+print('i: $i');
           }
         }
       });
     });
   }
+
+
 
   @override
   void dispose() {
@@ -173,6 +185,27 @@ class _AnalysisViewState extends State<AnalysisView> {
                               SizedBox(width: 100, child: Text(_totalPoints[i].toString())),
                             ],
                           ),
+                        Row(
+                          children: [
+                            SizedBox(width: 50, child: Text(' ')),
+                            context.sized.emptySizedWidthBoxLow,
+                            SizedBox(width: 100, child: Text(' ')),
+                            context.sized.emptySizedWidthBoxLow,
+                            SizedBox(width: 100, child: Text(' ')),
+                            context.sized.emptySizedWidthBoxLow,
+                            for (var i = 0; i < acqProvider.createExamSelectedAcquitionList.length; i++)
+                                SizedBox(
+                                  width: 70,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 5, bottom: 2),
+                                    child: Text('${_acqPoints[i]}'),
+                                  ),
+                                ),
+
+
+                          ],
+                        ),
+
                       ],
                     ),
                   ),

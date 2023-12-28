@@ -4,9 +4,8 @@ class AnalysisViewModel extends ChangeNotifier {
   List<int> _rowTotalPoint=[];
   int a = 0;
 
-  void counter(int controllerCount){
-    print(controllerCount);
-    a+=controllerCount;
+  void addList(List<int> list){
+    _rowTotalPoint=list;
     notifyListeners();
   }
 
