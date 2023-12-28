@@ -63,9 +63,9 @@ class _AnalysisViewState extends State<AnalysisView> {
             }
             _totalPoints.insert(i, total);
 
-print('i * acqProvider.createExamSelectedAcquitionList.length + j');
+/*print('i * acqProvider.createExamSelectedAcquitionList.length + j');
 print(i * acqProvider.createExamSelectedAcquitionList.length + acqProvider.createExamSelectedAcquitionList.length*j);
-print('i: $i');
+print('i: $i');*/
           }
         }
       });
@@ -186,6 +186,7 @@ print('i: $i');
                             ],
                           ),
                         Row(
+
                           children: [
                             SizedBox(width: 50, child: Text(' ')),
                             context.sized.emptySizedWidthBoxLow,
@@ -193,15 +194,17 @@ print('i: $i');
                             context.sized.emptySizedWidthBoxLow,
                             SizedBox(width: 100, child: Text(' ')),
                             context.sized.emptySizedWidthBoxLow,
-                            for (var i = 0; i < acqProvider.createExamSelectedAcquitionList.length; i++)
-                                SizedBox(
-                                  width: 70,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(right: 5, bottom: 2),
-                                    child: Text('${_acqPoints[i]}'),
+
+                            for (var e = 0; e < acqProvider.createExamSelectedAcquitionList.length; e++)
+                              SizedBox(
+                                width: 70,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 5, bottom: 2),
+                                  child: Text('${(calculateColumnAverage(e, readProvider.studentNumbers.length)).toStringAsFixed(2)}',
+                                    style: TextStyle(fontWeight: FontWeight.bold,),
                                   ),
                                 ),
-
+                              ),
 
                           ],
                         ),
@@ -216,5 +219,19 @@ print('i: $i');
         ),
       ),
     );
+  }
+  double calculateColumnAverage(int columnIndex, int rowCount) {
+    int total = 0;
+    int validRowCount = 0;
+
+    for (var i = 0; i < rowCount; i++) {
+      String value = _controllerList[i * _acqPoints.length + columnIndex].text;
+      if (value.isNotEmpty) {
+        total += int.tryParse(value) ?? 0;
+        validRowCount++;
+      }
+    }
+
+    return validRowCount > 0 ? total / validRowCount : 0;
   }
 }
