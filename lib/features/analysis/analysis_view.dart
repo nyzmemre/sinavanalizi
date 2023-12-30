@@ -186,8 +186,6 @@ print('i: $i');*/
                             ],
                           ),
                         Row(
-
-
                           children: [
                             SizedBox(width: 50, child: Text(' ')),
                             context.sized.emptySizedWidthBoxLow,
