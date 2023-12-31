@@ -194,6 +194,8 @@ print('i: $i');*/
                             SizedBox(width: 100, child: Text(' ')),
                             context.sized.emptySizedWidthBoxLow,
 
+
+
                             for (var e = 0; e < acqProvider.createExamSelectedAcquitionList.length; e++)
                               SizedBox(
                                 width: 70,
